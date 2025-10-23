@@ -17,6 +17,10 @@ apollyon-mef-bridge = { path = "../../apollyon-mef-bridge" }
 mef-schemas = { path = "../../infinity-ledger/mef-schemas" }
 mef-router = { path = "../../infinity-ledger/mef-router" }
 mef-spiral = { path = "../../infinity-ledger/mef-spiral" }
+mef-ledger = { path = "../../infinity-ledger/mef-ledger" }
+mef-knowledge = { path = "../../infinity-ledger/mef-knowledge" }
+mef-topology = { path = "../../infinity-ledger/mef-topology" }
+mef-core = { path = "../../infinity-ledger/mef-core" }
 
 # Common dependencies
 tokio = { version = "1", features = ["full"] }

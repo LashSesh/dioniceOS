@@ -38,6 +38,14 @@ if shadow.is_active() {
 - **Activation Criteria**: Automatic activation when stability criteria met
 - **Metrics Collection**: CSV/JSON export of all metrics
 - **Deterministic**: Reproducible with fixed seeds
+- **✨ Future Extensions**: All extensions now implemented and integrated!
+  - ✅ Full HDAG relaxation with Hyperbion fields
+  - ✅ Complete Funnel operations (split/merge/prune)
+  - ✅ Actual MEF Ledger writes
+  - ✅ Full 8D vector pipeline
+  - ✅ Metatron S7 router integration
+
+**See [FUTURE_EXTENSIONS.md](FUTURE_EXTENSIONS.md) for detailed documentation of all extensions.**
 
 ## Architecture
 

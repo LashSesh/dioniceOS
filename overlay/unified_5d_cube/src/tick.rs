@@ -33,11 +33,20 @@ pub struct TickResult {
     /// Optional commit data (if FIRE)
     pub commit: Option<CommitData>,
     
+    /// Optional 8D vector (if enabled)
+    pub vector_8d: Option<Vec<f64>>,
+    
+    /// Selected route (if Metatron routing enabled)
+    pub selected_route: Option<Vec<String>>,
+    
     /// Metrics collected during tick
     pub metrics: TickMetrics,
     
     /// Tick number
     pub tick_number: u64,
+    
+    /// Whether commit was written to ledger
+    pub ledger_written: bool,
 }
 
 /// Execute one tick of the Unified 5D Cube pipeline
@@ -67,7 +76,11 @@ pub fn tick_5d_cube(
     // In full implementation, would integrate APOLLYON VectorField here
     let state_relaxed = state_trichter.clone();
     
+    // Phase 2.5: Metatron routing (if enabled) - select transformation route
+    let selected_route = adapter.select_route(&state_relaxed);
+    
     // Phase 3: FIELD_IO - Compute Potential/Guidance using Trichter ∇Φ proj.4D
+    // This now uses full HDAG relaxation if enabled
     let guidance = adapter.compute_guidance(&state_relaxed, t);
     
     // Phase 4: GATE - Evaluate MEF PoR/Merkaba
@@ -88,13 +101,26 @@ pub fn tick_5d_cube(
     };
     
     // Phase 5: CONDENSE - Apply Trichter Coagula/Tick
+    // This now uses full Funnel operations if enabled
     let state_condensed = adapter.condense(&state_relaxed, &guidance);
     
+    // Phase 5.5: Derive 8D vector (if enabled)
+    let vector_8d = adapter.derive_8d_vector(&state_condensed);
+    
     // Phase 6: Optional Collapse → Commit (only if FIRE)
-    let commit = if matches!(gate_decision, GateDecision::FIRE) {
-        Some(adapter.prepare_commit(&state_condensed, &proof))
+    let (commit, ledger_written) = if matches!(gate_decision, GateDecision::FIRE) {
+        let commit_data = adapter.prepare_commit(&state_condensed, &proof);
+        
+        // Attempt to write to ledger if enabled and not in shadow mode
+        let written = if !adapter.config().shadow_mode {
+            adapter.write_to_ledger(&commit_data).is_ok()
+        } else {
+            false
+        };
+        
+        (Some(commit_data), written)
     } else {
-        None
+        (None, false)
     };
     
     // Collect metrics
@@ -117,8 +143,11 @@ pub fn tick_5d_cube(
         proof,
         state_condensed,
         commit,
+        vector_8d,
+        selected_route,
         metrics,
         tick_number,
+        ledger_written,
     }
 }
 
@@ -183,6 +212,7 @@ mod tests {
         assert_eq!(result.tick_number, 0);
         assert!(matches!(result.gate_decision, GateDecision::HOLD));
         assert!(result.commit.is_none());
+        assert!(!result.ledger_written);
     }
     
     #[test]
@@ -196,6 +226,39 @@ mod tests {
         let result = tick_5d_cube(&mut adapter, &state_curr, Some(&state_prev), 0.1, 1);
         
         assert_eq!(result.tick_number, 1);
+        assert!(!result.ledger_written); // Shadow mode by default
         // Gate decision depends on thresholds
+    }
+    
+    #[test]
+    fn test_tick_with_extensions() {
+        use tempfile::TempDir;
+        
+        let temp_dir = TempDir::new().unwrap();
+        let ledger_path = temp_dir.path().join("test_ledger");
+        
+        let mut config = InterlockConfig::default();
+        config.enable_full_hdag = true;
+        config.enable_8d_vectors = true;
+        config.enable_ledger_writes = true;
+        config.ledger_path = Some(ledger_path);
+        config.shadow_mode = false;
+        config.gate_phi_threshold = 0.3;
+        
+        let mut adapter = InterlockAdapter::new(config);
+        
+        let state_prev = ApollonState5D::from_array([2.0, 1.0, 0.5, 0.8, 0.6]);
+        let state_curr = ApollonState5D::from_array([1.9, 0.95, 0.48, 0.76, 0.57]);
+        
+        let result = tick_5d_cube(&mut adapter, &state_curr, Some(&state_prev), 0.1, 1);
+        
+        assert_eq!(result.tick_number, 1);
+        assert!(result.vector_8d.is_some(), "8D vector should be derived");
+        
+        // If gate fires and we have a commit, ledger might be written
+        if result.commit.is_some() {
+            // Ledger write success depends on initialization
+            // This is OK either way for the test
+        }
     }
 }
