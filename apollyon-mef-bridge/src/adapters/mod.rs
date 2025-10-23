@@ -14,4 +14,4 @@ pub mod resonance_adapter;
 pub use state_adapter::StateAdapter;
 pub use spectral_adapter::SpectralAdapter;
 pub use metatron_adapter::MetatronBridge;
-pub use resonance_adapter::ResonanceBridge;
+pub use resonance_adapter::{ResonanceBridge, ProofOfResonanceData};

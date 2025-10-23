@@ -198,7 +198,7 @@ mod tests {
         let sig_high_entropy = SpectralAdapter::features_to_signature(0.8, &[0.5], 0.0);
         
         assert!(sig_low_entropy.rho > sig_high_entropy.rho);
-        assert_eq!(sig_low_entropy.rho, 0.8);
-        assert_eq!(sig_high_entropy.rho, 0.2);
+        assert!((sig_low_entropy.rho - 0.8).abs() < 1e-10);
+        assert!((sig_high_entropy.rho - 0.2).abs() < 1e-10);
     }
 }
