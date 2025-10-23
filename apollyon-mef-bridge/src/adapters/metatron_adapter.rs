@@ -58,7 +58,7 @@ impl MetatronBridge {
     ///
     /// # Returns
     /// A HashMap containing the computed metrics
-    pub fn compute_mesh_metrics(&mut self, state: &State5D, t: f64) -> HashMap<String, f64> {
+    pub fn compute_mesh_metrics(&mut self, _state: &State5D, t: f64) -> HashMap<String, f64> {
         // Run QLogic analysis
         let output = self.qlogic.step(t);
 
@@ -168,7 +168,7 @@ mod tests {
 
     #[test]
     fn test_bridge_creation() {
-        let bridge = MetatronBridge::new();
+        let _bridge = MetatronBridge::new();
         assert!(true); // Bridge created successfully
     }
 
