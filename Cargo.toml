@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "apollyon-mef-bridge",
+    "overlay/unified_5d_cube",
 ]
 resolver = "2"
 
