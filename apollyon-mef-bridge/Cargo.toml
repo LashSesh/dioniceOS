@@ -1,0 +1,38 @@
+[package]
+name = "apollyon-mef-bridge"
+version = "0.1.0"
+edition = "2021"
+authors = ["APOLLYON-MEF Integration Team"]
+description = "Integration bridge between APOLLYON-5D and Infinity-Ledger (MEF-Core)"
+license = "MIT"
+
+[dependencies]
+# APOLLYON-5D
+core_5d = { path = "../apollyon_5d/core" }
+metatron = { path = "../apollyon_5d/metatron" }
+apollyon_bridge = { path = "../apollyon_5d/bridge" }
+
+# MEF-Core
+mef-spiral = { path = "../infinity-ledger/mef-spiral" }
+mef-schemas = { path = "../infinity-ledger/mef-schemas" }
+mef-knowledge = { path = "../infinity-ledger/mef-knowledge" }
+mef-memory = { path = "../infinity-ledger/mef-memory" }
+mef-router = { path = "../infinity-ledger/mef-router" }
+mef-ledger = { path = "../infinity-ledger/mef-ledger" }
+
+# Common dependencies
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+nalgebra = "0.33"
+
+[dev-dependencies]
+criterion = "0.5"
+tokio-test = "0.4"
+
+[[bench]]
+name = "integration_benchmarks"
+harness = false

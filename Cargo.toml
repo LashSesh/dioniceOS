@@ -1,0 +1,27 @@
+[workspace]
+members = [
+    "apollyon-mef-bridge",
+]
+resolver = "2"
+
+# Note: apollyon_5d and infinity-ledger are separate workspaces
+# and should be built independently. The bridge crate references
+# their components via path dependencies.
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["APOLLYON-MEF Integration Team"]
+license = "MIT"
+repository = "https://github.com/LashSesh/dioniceOS"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0
+
+[profile.test]
+opt-level = 1
