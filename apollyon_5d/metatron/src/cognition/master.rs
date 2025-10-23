@@ -1,9 +1,9 @@
+use crate::cognition::seraphic_feedback::{SeraphicFeedbackModule, SeraphicValue};
+use crate::cognition::spiralmemory::SpiralMemory;
 use crate::config::MasterAgentConfig;
 use crate::error::{EngineError, EngineResult};
 use crate::fields::gabriel::GabrielCell;
 use crate::fields::resonance::MandorlaField;
-use crate::cognition::seraphic_feedback::{SeraphicFeedbackModule, SeraphicValue};
-use crate::cognition::spiralmemory::SpiralMemory;
 
 #[derive(Debug, Clone)]
 pub struct MasterAgentOutput {

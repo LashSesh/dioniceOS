@@ -123,11 +123,7 @@ impl ParameterSweep {
 ///
 /// # Returns
 /// EnsembleResult containing all trajectories and statistics
-pub fn run_ensemble(
-    config: &EnsembleConfig,
-    vf: &VectorField,
-    tc: &TimeConfig,
-) -> EnsembleResult {
+pub fn run_ensemble(config: &EnsembleConfig, vf: &VectorField, tc: &TimeConfig) -> EnsembleResult {
     let mut rng = rand::thread_rng();
     let mut trajectories = Vec::with_capacity(config.num_runs);
 

@@ -52,8 +52,12 @@ impl StateAdapter {
     /// # Panics
     /// Panics if `mef_coords` does not have exactly 5 elements or if any value is not finite
     pub fn mef_to_apollyon(mef_coords: &[f64]) -> State5D {
-        assert_eq!(mef_coords.len(), 5, "MEF coordinates must have exactly 5 elements");
-        
+        assert_eq!(
+            mef_coords.len(),
+            5,
+            "MEF coordinates must have exactly 5 elements"
+        );
+
         State5D::new(
             mef_coords[0], // x
             mef_coords[1], // y
@@ -73,16 +77,16 @@ impl StateAdapter {
     pub fn validate_roundtrip(original: &State5D) -> bool {
         let mef_coords = Self::apollyon_to_mef(original);
         let roundtrip = Self::mef_to_apollyon(&mef_coords);
-        
+
         const EPSILON: f64 = 1e-10;
-        
+
         for i in 0..5 {
             let error = (original.get(i) - roundtrip.get(i)).abs();
             if error >= EPSILON {
                 return false;
             }
         }
-        
+
         true
     }
 
@@ -90,7 +94,7 @@ impl StateAdapter {
     pub fn roundtrip_error(original: &State5D) -> f64 {
         let mef_coords = Self::apollyon_to_mef(original);
         let roundtrip = Self::mef_to_apollyon(&mef_coords);
-        
+
         (0..5)
             .map(|i| (original.get(i) - roundtrip.get(i)).abs())
             .fold(0.0, f64::max)
@@ -105,7 +109,7 @@ mod tests {
     fn test_apollyon_to_mef() {
         let state = State5D::new(1.0, 2.0, 3.0, 0.5, 0.7);
         let coords = StateAdapter::apollyon_to_mef(&state);
-        
+
         assert_eq!(coords.len(), 5);
         assert_eq!(coords[0], 1.0);
         assert_eq!(coords[1], 2.0);
@@ -118,7 +122,7 @@ mod tests {
     fn test_mef_to_apollyon() {
         let coords = vec![1.0, 2.0, 3.0, 0.5, 0.7];
         let state = StateAdapter::mef_to_apollyon(&coords);
-        
+
         assert_eq!(state.get(0), 1.0);
         assert_eq!(state.get(1), 2.0);
         assert_eq!(state.get(2), 3.0);
@@ -130,7 +134,7 @@ mod tests {
     fn test_perfect_roundtrip() {
         let original = State5D::new(1.0, 2.0, 3.0, 0.5, 0.7);
         assert!(StateAdapter::validate_roundtrip(&original));
-        
+
         let error = StateAdapter::roundtrip_error(&original);
         assert!(error < 1e-10, "Roundtrip error {} exceeds threshold", error);
     }
@@ -178,7 +182,7 @@ mod tests {
         let state = State5D::new(1.5, 2.5, 3.5, 0.75, 0.25);
         let coords = StateAdapter::apollyon_to_mef(&state);
         let back = StateAdapter::mef_to_apollyon(&coords);
-        
+
         // Verify each component individually
         assert!((state.get(0) - back.get(0)).abs() < 1e-15);
         assert!((state.get(1) - back.get(1)).abs() < 1e-15);

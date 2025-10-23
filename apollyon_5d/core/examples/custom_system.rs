@@ -54,13 +54,18 @@ fn main() {
     // Check oscillation amplitude
     let states: Vec<State5D> = trajectory.iter().map(|(_, s)| *s).collect();
     let var0_values: Vec<f64> = states.iter().map(|s| s.get(0)).collect();
-    let max_var0 = var0_values
-        .iter()
-        .fold(f64::NEG_INFINITY, |a, &b| a.max(b));
+    let max_var0 = var0_values.iter().fold(f64::NEG_INFINITY, |a, &b| a.max(b));
     let min_var0 = var0_values.iter().fold(f64::INFINITY, |a, &b| a.min(b));
 
-    println!("\nVariable 0 (oscillator) range: [{:.3}, {:.3}]", min_var0, max_var0);
-    println!("Variable 2 (decay): {:.3} → {:.3}", initial.get(2), final_state.get(2));
+    println!(
+        "\nVariable 0 (oscillator) range: [{:.3}, {:.3}]",
+        min_var0, max_var0
+    );
+    println!(
+        "Variable 2 (decay): {:.3} → {:.3}",
+        initial.get(2),
+        final_state.get(2)
+    );
     println!(
         "Variable 3 (logistic): {:.3} → {:.3}",
         initial.get(3),

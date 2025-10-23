@@ -12,6 +12,6 @@ pub use geometry::{
 };
 pub use graph::MetatronCubeGraph;
 pub use operators::{
-    apply_permutation_to_adjacency, generate_c6_subgroup, generate_d6_subgroup,
-    hexagon_reflection, hexagon_rotation, permutation_matrix, permutation_to_matrix,
+    apply_permutation_to_adjacency, generate_c6_subgroup, generate_d6_subgroup, hexagon_reflection,
+    hexagon_rotation, permutation_matrix, permutation_to_matrix,
 };

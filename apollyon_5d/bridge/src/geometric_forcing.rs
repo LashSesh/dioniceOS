@@ -42,16 +42,16 @@ impl GeometricStateSpace {
     }
 
     /// Project 5D state onto Metatron geometry
-    /// 
+    ///
     /// Maps state components to specific Metatron node positions in 3D space
     pub fn project_to_geometry(&self, sigma: &State5D) -> Vec<f64> {
         let mut projection = Vec::with_capacity(15); // 5 nodes × 3 coords
-        
+
         for (i, &node_idx) in self.node_mapping.iter().enumerate() {
             if node_idx < self.cube.graph.nodes.len() {
                 let node = &self.cube.graph.nodes[node_idx];
                 let scaled_value = sigma.get(i) * self.scales[i];
-                
+
                 // Map to node position with state value modulating distance
                 projection.push(node.coords[0] * scaled_value);
                 projection.push(node.coords[1] * scaled_value);
@@ -63,7 +63,7 @@ impl GeometricStateSpace {
                 projection.push(0.0);
             }
         }
-        
+
         projection
     }
 
@@ -76,24 +76,24 @@ impl GeometricStateSpace {
         }
 
         let mut values = [0.0; 5];
-        
+
         for (i, &node_idx) in self.node_mapping.iter().enumerate() {
             if node_idx < self.cube.graph.nodes.len() {
                 let node = &self.cube.graph.nodes[node_idx];
                 let base_idx = i * 3;
-                
+
                 // Reconstruct value from geometric projection
                 let x = geometry[base_idx];
                 let y = geometry[base_idx + 1];
                 let z = geometry[base_idx + 2];
-                
+
                 // Use Euclidean norm to recover scalar value
                 let norm = (x * x + y * y + z * z).sqrt();
                 let nx = node.coords[0];
                 let ny = node.coords[1];
                 let nz = node.coords[2];
                 let node_norm = (nx * nx + ny * ny + nz * nz).sqrt();
-                
+
                 values[i] = if node_norm > 1e-10 {
                     norm / (node_norm * self.scales[i])
                 } else {
@@ -101,8 +101,10 @@ impl GeometricStateSpace {
                 };
             }
         }
-        
-        Some(State5D::new(values[0], values[1], values[2], values[3], values[4]))
+
+        Some(State5D::new(
+            values[0], values[1], values[2], values[3], values[4],
+        ))
     }
 
     /// Apply C6 rotational symmetry to state
@@ -111,23 +113,23 @@ impl GeometricStateSpace {
     pub fn apply_c6_rotation(&self, sigma: &State5D, steps: usize) -> State5D {
         let geometry = self.project_to_geometry(sigma);
         let mut rotated = Vec::with_capacity(geometry.len());
-        
+
         let angle = (std::f64::consts::PI / 3.0) * (steps % 6) as f64; // 60 degrees
         let cos_a = angle.cos();
         let sin_a = angle.sin();
-        
+
         for i in 0..5 {
             let base_idx = i * 3;
             let x = geometry[base_idx];
             let y = geometry[base_idx + 1];
             let z = geometry[base_idx + 2];
-            
+
             // Rotate around z-axis
             rotated.push(x * cos_a - y * sin_a);
             rotated.push(x * sin_a + y * cos_a);
             rotated.push(z);
         }
-        
+
         self.project_from_geometry(&rotated).unwrap_or(*sigma)
     }
 
@@ -135,14 +137,14 @@ impl GeometricStateSpace {
     pub fn apply_reflection(&self, sigma: &State5D) -> State5D {
         let geometry = self.project_to_geometry(sigma);
         let mut reflected = Vec::with_capacity(geometry.len());
-        
+
         for i in 0..5 {
             let base_idx = i * 3;
             reflected.push(-geometry[base_idx]); // Reflect x
             reflected.push(geometry[base_idx + 1]);
             reflected.push(geometry[base_idx + 2]);
         }
-        
+
         self.project_from_geometry(&reflected).unwrap_or(*sigma)
     }
 
@@ -157,7 +159,7 @@ impl GeometricStateSpace {
                 panic!("State contains non-finite values");
             }
         }
-        
+
         // Project through geometry and back to enforce structure
         let geometry = self.project_to_geometry(sigma);
         if let Some(constrained) = self.project_from_geometry(&geometry) {
@@ -175,7 +177,7 @@ impl GeometricStateSpace {
     /// Returns how well a state preserves C6 symmetry (0.0 = perfect, higher = worse)
     pub fn symmetry_deviation(&self, sigma: &State5D) -> f64 {
         let mut total_deviation = 0.0;
-        
+
         // Check all 6 rotations
         for step in 1..6 {
             let rotated = self.apply_c6_rotation(sigma, step);
@@ -184,7 +186,7 @@ impl GeometricStateSpace {
                 total_deviation += diff;
             }
         }
-        
+
         total_deviation / 5.0 // Average per rotation
     }
 }
@@ -230,13 +232,13 @@ mod tests {
     fn project_roundtrip() {
         let space = GeometricStateSpace::default_mapping();
         let state = State5D::new(1.0, 2.0, 3.0, 4.0, 5.0);
-        
+
         let geometry = space.project_to_geometry(&state);
         let recovered = space.project_from_geometry(&geometry);
-        
+
         assert!(recovered.is_some());
         let recovered = recovered.unwrap();
-        
+
         // Geometric projection/reconstruction may not be exact due to norm-based recovery
         // Just verify the operation completes and produces valid results
         for i in 0..5 {
@@ -248,13 +250,13 @@ mod tests {
     fn c6_rotation_symmetry() {
         let space = GeometricStateSpace::default_mapping();
         let state = State5D::new(1.0, 1.0, 1.0, 1.0, 1.0);
-        
+
         // Applying 6 rotations should return approximately to original
         let mut rotated = state;
         for _ in 0..6 {
             rotated = space.apply_c6_rotation(&rotated, 1);
         }
-        
+
         // Verify rotation produces valid states
         for i in 0..5 {
             assert!(rotated.get(i).is_finite());
@@ -265,12 +267,12 @@ mod tests {
     fn reflection_symmetry() {
         let space = GeometricStateSpace::default_mapping();
         let state = State5D::new(1.0, 2.0, 3.0, 4.0, 5.0);
-        
+
         let reflected = space.apply_reflection(&state);
-        
+
         // Double reflection should return to original (approximately)
         let double_reflected = space.apply_reflection(&reflected);
-        
+
         // Verify reflections produce valid states
         for i in 0..5 {
             assert!(reflected.get(i).is_finite());
@@ -282,7 +284,7 @@ mod tests {
     fn symmetry_deviation_measurement() {
         let space = GeometricStateSpace::default_mapping();
         let state = State5D::new(1.0, 1.0, 1.0, 1.0, 1.0);
-        
+
         let deviation = space.symmetry_deviation(&state);
         assert!(deviation >= 0.0);
     }
@@ -291,9 +293,9 @@ mod tests {
     fn enforce_constraints_preserves_validity() {
         let space = GeometricStateSpace::default_mapping();
         let mut state = State5D::new(1.0, 2.0, 3.0, 4.0, 5.0);
-        
+
         space.enforce_constraints(&mut state);
-        
+
         assert!(space.validates(&state));
         assert!(state.is_valid());
     }

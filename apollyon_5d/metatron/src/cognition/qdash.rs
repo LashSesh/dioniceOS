@@ -1,8 +1,8 @@
-use crate::fields::gabriel::GabrielCell;
-use crate::fields::resonance::MandorlaField;
 use crate::cognition::qlogic::{QLogicEngine, QLogicOutput};
 use crate::cognition::semantic_field::SemanticField;
 use crate::cognition::spiralmemory::SpiralMemory;
+use crate::fields::gabriel::GabrielCell;
+use crate::fields::resonance::MandorlaField;
 
 #[derive(Debug, Clone)]
 pub struct DecisionOutcome {

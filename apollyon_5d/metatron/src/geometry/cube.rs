@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
 use crate::error::EngineResult;
-use crate::geometry::{Node, canonical_edges, canonical_nodes};
 use crate::geometry::graph::MetatronCubeGraph;
 use crate::geometry::operators::{generate_c6_subgroup, generate_d6_subgroup, permutation_matrix};
+use crate::geometry::{canonical_edges, canonical_nodes, Node};
 
 #[derive(Debug, Clone)]
 pub struct MetatronCube {

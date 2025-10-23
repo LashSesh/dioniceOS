@@ -10,15 +10,11 @@ license = "MIT"
 # APOLLYON-5D
 core_5d = { path = "../apollyon_5d/core" }
 metatron = { path = "../apollyon_5d/metatron" }
-apollyon_bridge = { path = "../apollyon_5d/bridge" }
+bridge = { path = "../apollyon_5d/bridge" }
 
-# MEF-Core
-mef-spiral = { path = "../infinity-ledger/mef-spiral" }
+# MEF-Core (only what we need for adapters)
 mef-schemas = { path = "../infinity-ledger/mef-schemas" }
-mef-knowledge = { path = "../infinity-ledger/mef-knowledge" }
-mef-memory = { path = "../infinity-ledger/mef-memory" }
 mef-router = { path = "../infinity-ledger/mef-router" }
-mef-ledger = { path = "../infinity-ledger/mef-ledger" }
 
 # Common dependencies
 tokio = { version = "1", features = ["full"] }
@@ -32,7 +28,3 @@ nalgebra = "0.33"
 [dev-dependencies]
 criterion = "0.5"
 tokio-test = "0.4"
-
-[[bench]]
-name = "integration_benchmarks"
-harness = false

@@ -6,12 +6,12 @@
 //! - APOLLYON Metatron-R ⟷ MEF S7 Router
 //! - APOLLYON ResonanceField ⟷ MEF Proof-of-Resonance
 
-pub mod state_adapter;
-pub mod spectral_adapter;
 pub mod metatron_adapter;
 pub mod resonance_adapter;
+pub mod spectral_adapter;
+pub mod state_adapter;
 
-pub use state_adapter::StateAdapter;
-pub use spectral_adapter::SpectralAdapter;
 pub use metatron_adapter::MetatronBridge;
-pub use resonance_adapter::ResonanceBridge;
+pub use resonance_adapter::{ProofOfResonanceData, ResonanceBridge};
+pub use spectral_adapter::SpectralAdapter;
+pub use state_adapter::StateAdapter;
