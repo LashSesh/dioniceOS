@@ -6,7 +6,7 @@ pub struct EntropyAnalyzer;
 
 impl EntropyAnalyzer {
     /// Compute the Shannon entropy of a field pattern
-    /// 
+    ///
     /// The field values are treated as a probability distribution
     /// after normalization by their sum.
     pub fn entropy(&self, field: &[f64]) -> f64 {

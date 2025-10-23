@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use serde::Serialize;
 
 use crate::error::{EngineError, EngineResult};
-use crate::geometry::{Node, canonical_edges, canonical_nodes};
+use crate::geometry::{canonical_edges, canonical_nodes, Node};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct MetatronCubeGraph {

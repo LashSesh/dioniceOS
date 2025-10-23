@@ -16,7 +16,7 @@ pub use master::{MasterAgent, MasterAgentOutput};
 pub use meta_interpreter::MetaInterpreter;
 pub use monolith::{DecisionState, MonolithDecision, OphanKernel, TripolarOperator};
 pub use qdash::QDASHAgent;
-pub use qlogic::{Diagnostics, QLogicEngine, QLogicOutput, QLOGICOscillatorCore};
+pub use qlogic::{Diagnostics, QLOGICOscillatorCore, QLogicEngine, QLogicOutput};
 pub use semantic_field::{ResonanceDiagnostics, SemanticField};
 pub use seraphic_feedback::SeraphicValue;
 pub use spiralmemory::SpiralMemory;

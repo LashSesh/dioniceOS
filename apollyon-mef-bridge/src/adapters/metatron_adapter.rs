@@ -10,9 +10,9 @@
 //! - Provides deterministic, reproducible routing
 
 use core_5d::State5D;
-use metatron::cognition::qlogic::QLogicEngine;
-use mef_router::{select_route, compute_mesh_score};
+use mef_router::{compute_mesh_score, select_route};
 use mef_schemas::RouteSpec;
+use metatron::cognition::qlogic::QLogicEngine;
 use std::collections::HashMap;
 
 /// Bridge between APOLLYON Metatron-R and MEF S7 Router
@@ -103,7 +103,7 @@ impl MetatronBridge {
 
         // Additional metrics for analysis
         metrics.insert("entropy".to_string(), output.entropy);
-        
+
         if let Some(ref diag) = output.diagnostics {
             metrics.insert("spectral_centroid".to_string(), diag.spectral_centroid);
             metrics.insert("coherence".to_string(), 1.0 - diag.sparsity);
@@ -138,7 +138,7 @@ impl MetatronBridge {
 
         // Select route using MEF router
         let route = select_route(seed, &metrics)?;
-        
+
         Ok(route)
     }
 
@@ -176,14 +176,14 @@ mod tests {
     fn test_metric_computation() {
         let mut bridge = MetatronBridge::new();
         let state = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
-        
+
         let metrics = bridge.compute_mesh_metrics(&state, 0.0);
-        
+
         // Verify required metrics are present
         assert!(metrics.contains_key("betti"));
         assert!(metrics.contains_key("lambda_gap"));
         assert!(metrics.contains_key("persistence"));
-        
+
         // Verify metrics are finite
         assert!(metrics["betti"].is_finite());
         assert!(metrics["lambda_gap"].is_finite());
@@ -194,14 +194,18 @@ mod tests {
     fn test_deterministic_routing() {
         let mut bridge = MetatronBridge::new();
         let state = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
-        
+
         // Same state + same seed should give same route
-        let route1 = bridge.select_route_enhanced(&state, "test_seed", 0.0).unwrap();
-        
+        let route1 = bridge
+            .select_route_enhanced(&state, "test_seed", 0.0)
+            .unwrap();
+
         // Create new bridge to ensure no state leakage
         let mut bridge2 = MetatronBridge::new();
-        let route2 = bridge2.select_route_enhanced(&state, "test_seed", 0.0).unwrap();
-        
+        let route2 = bridge2
+            .select_route_enhanced(&state, "test_seed", 0.0)
+            .unwrap();
+
         assert_eq!(route1.route_id, route2.route_id);
         assert_eq!(route1.permutation, route2.permutation);
     }
@@ -209,13 +213,13 @@ mod tests {
     #[test]
     fn test_different_states_different_routes() {
         let mut bridge = MetatronBridge::new();
-        
+
         let state1 = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
         let state2 = State5D::new(2.0, 1.0, 0.6, 1.4, 0.4);
-        
+
         let route1 = bridge.select_route_enhanced(&state1, "seed", 0.0).unwrap();
         let route2 = bridge.select_route_enhanced(&state2, "seed", 0.0).unwrap();
-        
+
         // Different states may produce different routes
         // (not guaranteed but likely due to different spectral properties)
         // We just verify both succeed
@@ -227,9 +231,9 @@ mod tests {
     fn test_mesh_score_computation() {
         let mut bridge = MetatronBridge::new();
         let state = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
-        
+
         let score = bridge.compute_mesh_score_only(&state, 0.0).unwrap();
-        
+
         // Score should be finite and reasonable
         assert!(score.is_finite());
         assert!(score >= 0.0); // Mesh scores are typically non-negative
@@ -239,14 +243,14 @@ mod tests {
     fn test_route_structure() {
         let mut bridge = MetatronBridge::new();
         let state = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
-        
+
         let route = bridge.select_route_enhanced(&state, "test", 0.0).unwrap();
-        
+
         // Verify route structure
         assert_eq!(route.permutation.len(), 7);
         assert!(route.route_id.starts_with("route_"));
         assert!(route.mesh_score.is_finite());
-        
+
         // Verify permutation is valid (all indices 0-6 present once)
         let mut seen = vec![false; 7];
         for &idx in &route.permutation {
@@ -261,7 +265,7 @@ mod tests {
     fn test_custom_node_count() {
         let mut bridge = MetatronBridge::with_nodes(7);
         let state = State5D::new(1.0, 0.5, 0.3, 0.7, 0.2);
-        
+
         let metrics = bridge.compute_mesh_metrics(&state, 0.0);
         assert!(metrics.contains_key("betti"));
     }

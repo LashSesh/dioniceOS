@@ -24,13 +24,13 @@ use serde::{Deserialize, Serialize};
 pub struct ProofOfResonanceData {
     /// Path invariance (Euclidean distance in 5D)
     pub delta_pi: f64,
-    
+
     /// Alignment (resonance field modulation value)
     pub phi: f64,
-    
+
     /// Lyapunov delta (energy change)
     pub delta_v: f64,
-    
+
     /// Overall proof validity
     pub por_valid: bool,
 }
@@ -99,7 +99,7 @@ impl ResonanceBridge {
     ) -> ProofOfResonanceData {
         // 1. Path Invariance: Euclidean distance in 5D
         let delta_pi = Self::compute_path_invariance(state_prev, state_curr);
-        
+
         // 2. Alignment: Average resonance field modulation
         // Sample modulation across all 5D node pairs
         let mut phi_sum = 0.0;
@@ -117,17 +117,17 @@ impl ResonanceBridge {
         } else {
             1.0 // Default neutral value
         };
-        
+
         // 3. Lyapunov Delta: Change in state norm (energy)
         let delta_v = Self::compute_lyapunov_delta(state_prev, state_curr);
-        
+
         // 4. PoR Validity: Check basic constraints
-        let por_valid = phi.is_finite() 
-            && phi > 0.0 
-            && delta_pi.is_finite() 
+        let por_valid = phi.is_finite()
+            && phi > 0.0
+            && delta_pi.is_finite()
             && delta_pi < 100.0  // Reasonable bound
             && delta_v.is_finite();
-        
+
         ProofOfResonanceData {
             delta_pi,
             phi,
@@ -176,11 +176,11 @@ impl ResonanceBridge {
         phi_threshold: f64,
     ) -> GateDecision {
         let proof = Self::compute_proof(field, state_prev, state_curr, t);
-        
-        if proof.por_valid 
+
+        if proof.por_valid
             && proof.delta_pi <= epsilon
             && proof.phi >= phi_threshold
-            && proof.delta_v < 0.0 
+            && proof.delta_v < 0.0
         {
             GateDecision::FIRE
         } else {
@@ -222,9 +222,9 @@ mod tests {
         let field = ConstantResonanceField::new(0.8);
         let prev = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(1.01, 0.0, 0.0, 0.0, 0.0);
-        
+
         let proof = ResonanceBridge::compute_proof(&field, &prev, &curr, 0.0);
-        
+
         assert!(proof.por_valid);
         assert!(proof.delta_pi < 0.1); // Small change
         assert!((proof.phi - 0.8).abs() < 1e-10); // Constant field (with floating point tolerance)
@@ -236,9 +236,9 @@ mod tests {
         let field = ConstantResonanceField::new(1.0);
         let prev = State5D::new(0.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
-        
+
         let proof = ResonanceBridge::compute_proof(&field, &prev, &curr, 0.0);
-        
+
         // Distance should be 1.0 (moved along x-axis only)
         assert!((proof.delta_pi - 1.0).abs() < 1e-6);
     }
@@ -246,13 +246,13 @@ mod tests {
     #[test]
     fn test_proof_lyapunov_delta() {
         let field = ConstantResonanceField::new(1.0);
-        
+
         // Test decreasing norm (energy dissipation)
         let prev = State5D::new(2.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
-        
+
         let proof = ResonanceBridge::compute_proof(&field, &prev, &curr, 0.0);
-        
+
         // Norm decreased from 2.0 to 1.0, so delta_v should be -1.0
         assert!((proof.delta_v + 1.0).abs() < 1e-6);
         assert!(proof.delta_v < 0.0);
@@ -261,13 +261,13 @@ mod tests {
     #[test]
     fn test_gate_fires_on_valid_transition() {
         let field = ConstantResonanceField::new(0.8);
-        
+
         // Small change with decreasing norm
         let prev = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(0.99, 0.0, 0.0, 0.0, 0.0);
-        
+
         let decision = ResonanceBridge::evaluate_gate(&field, &prev, &curr, 0.0);
-        
+
         // Should FIRE: valid, small delta_pi, good phi, negative delta_v
         assert_eq!(decision, GateDecision::FIRE);
     }
@@ -275,13 +275,13 @@ mod tests {
     #[test]
     fn test_gate_holds_on_large_change() {
         let field = ConstantResonanceField::new(0.8);
-        
+
         // Large change (violates path invariance threshold)
         let prev = State5D::new(0.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(1.0, 1.0, 1.0, 1.0, 1.0);
-        
+
         let decision = ResonanceBridge::evaluate_gate(&field, &prev, &curr, 0.0);
-        
+
         // Should HOLD: delta_pi too large
         assert_eq!(decision, GateDecision::HOLD);
     }
@@ -289,13 +289,13 @@ mod tests {
     #[test]
     fn test_gate_holds_on_energy_increase() {
         let field = ConstantResonanceField::new(0.8);
-        
+
         // Small change but increasing norm
         let prev = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(1.01, 0.0, 0.0, 0.0, 0.0);
-        
+
         let decision = ResonanceBridge::evaluate_gate(&field, &prev, &curr, 0.0);
-        
+
         // Should HOLD: delta_v positive (energy increasing)
         assert_eq!(decision, GateDecision::HOLD);
     }
@@ -303,13 +303,13 @@ mod tests {
     #[test]
     fn test_gate_holds_on_low_alignment() {
         let field = ConstantResonanceField::new(0.3); // Low phi
-        
+
         // Good transition otherwise
         let prev = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(0.99, 0.0, 0.0, 0.0, 0.0);
-        
+
         let decision = ResonanceBridge::evaluate_gate(&field, &prev, &curr, 0.0);
-        
+
         // Should HOLD: phi below threshold (0.5)
         assert_eq!(decision, GateDecision::HOLD);
     }
@@ -319,15 +319,14 @@ mod tests {
         let field = ConstantResonanceField::new(0.4);
         let prev = State5D::new(1.0, 0.0, 0.0, 0.0, 0.0);
         let curr = State5D::new(0.99, 0.0, 0.0, 0.0, 0.0);
-        
+
         // With default thresholds (phi_threshold=0.5), should HOLD
         let decision1 = ResonanceBridge::evaluate_gate(&field, &prev, &curr, 0.0);
         assert_eq!(decision1, GateDecision::HOLD);
-        
+
         // With lower threshold (phi_threshold=0.3), should FIRE
-        let decision2 = ResonanceBridge::evaluate_gate_with_thresholds(
-            &field, &prev, &curr, 0.0, 0.1, 0.3
-        );
+        let decision2 =
+            ResonanceBridge::evaluate_gate_with_thresholds(&field, &prev, &curr, 0.0, 0.1, 0.3);
         assert_eq!(decision2, GateDecision::FIRE);
     }
 
@@ -343,11 +342,11 @@ mod tests {
     #[test]
     fn test_por_data_serialization() {
         let por = ProofOfResonanceData::new(0.05, 0.8, -0.01, true);
-        
+
         // Test serialization roundtrip
         let json = serde_json::to_string(&por).unwrap();
         let por_back: ProofOfResonanceData = serde_json::from_str(&json).unwrap();
-        
+
         assert_eq!(por, por_back);
     }
 
@@ -355,9 +354,9 @@ mod tests {
     fn test_zero_state_transition() {
         let field = ConstantResonanceField::new(1.0);
         let zero = State5D::zero();
-        
+
         let proof = ResonanceBridge::compute_proof(&field, &zero, &zero, 0.0);
-        
+
         // No change: delta_pi and delta_v should be 0
         assert_eq!(proof.delta_pi, 0.0);
         assert_eq!(proof.delta_v, 0.0);

@@ -132,13 +132,22 @@ pub fn run_all_tests() -> bool {
     println!("Running validation tests...");
 
     let test1 = test_linear_decoupled();
-    println!("Test 1 (Linear Decoupled): {}", if test1 { "PASS" } else { "FAIL" });
+    println!(
+        "Test 1 (Linear Decoupled): {}",
+        if test1 { "PASS" } else { "FAIL" }
+    );
 
     let test2 = test_harmonic_oscillator();
-    println!("Test 2 (Harmonic Oscillator): {}", if test2 { "PASS" } else { "FAIL" });
+    println!(
+        "Test 2 (Harmonic Oscillator): {}",
+        if test2 { "PASS" } else { "FAIL" }
+    );
 
     let test3 = test_fixed_point_convergence();
-    println!("Test 3 (Fixed Point): {}", if test3 { "PASS" } else { "FAIL" });
+    println!(
+        "Test 3 (Fixed Point): {}",
+        if test3 { "PASS" } else { "FAIL" }
+    );
 
     test1 && test2 && test3
 }

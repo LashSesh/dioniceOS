@@ -43,18 +43,18 @@ impl SpectralAdapter {
     ) -> SpectralSignature {
         // Phase alignment from first spectral centroid
         let psi = centroids.first().copied().unwrap_or(0.5);
-        
+
         // Resonance from inverse entropy (clamped to [0,1])
         // Higher entropy = lower resonance
         let clamped_entropy = entropy.min(1.0).max(0.0);
         let rho = 1.0 - clamped_entropy;
-        
+
         // Oscillation frequency (use as-is)
         let omega = dominant_freq;
-        
+
         SpectralSignature { psi, rho, omega }
     }
-    
+
     /// Create a simple spectral signature from basic trajectory statistics
     ///
     /// This is a simplified version for when full spectral analysis isn't available.
@@ -73,21 +73,21 @@ impl SpectralAdapter {
     ) -> SpectralSignature {
         // Normalize mean to [0, 1] range using tanh
         let psi = (mean_value.tanh() + 1.0) / 2.0;
-        
+
         // Low variance = high resonance
         // Use exponential decay: rho = exp(-variance)
         let rho = (-variance).exp().min(1.0).max(0.0);
-        
+
         // Oscillation frequency = oscillations per unit time
         let omega = if trajectory_length > 0.0 {
             oscillation_count / trajectory_length
         } else {
             0.0
         };
-        
+
         SpectralSignature { psi, rho, omega }
     }
-    
+
     /// Convert spectral signature to a readable description
     pub fn describe(sig: &SpectralSignature) -> String {
         format!(
@@ -104,11 +104,11 @@ mod tests {
     #[test]
     fn test_features_to_signature_basic() {
         let sig = SpectralAdapter::features_to_signature(
-            0.3,      // entropy
-            &[0.5],   // centroids
-            2.1,      // dominant_freq
+            0.3,    // entropy
+            &[0.5], // centroids
+            2.1,    // dominant_freq
         );
-        
+
         assert_eq!(sig.psi, 0.5);
         assert_eq!(sig.rho, 0.7); // 1 - 0.3
         assert_eq!(sig.omega, 2.1);
@@ -157,9 +157,9 @@ mod tests {
             5.0,   // oscillation_count
             100.0, // trajectory_length
         );
-        
+
         assert_eq!(sig.psi, 0.5); // tanh(0) = 0, normalized to 0.5
-        assert!(sig.rho > 0.9);   // exp(-0.1) ≈ 0.905
+        assert!(sig.rho > 0.9); // exp(-0.1) ≈ 0.905
         assert_eq!(sig.omega, 0.05); // 5/100
     }
 
@@ -171,7 +171,7 @@ mod tests {
             10.0,  // oscillations
             100.0, // length
         );
-        
+
         assert!(sig.psi > 0.5); // Positive mean
         assert!(sig.rho < 0.1); // exp(-5) ≈ 0.0067
         assert_eq!(sig.omega, 0.1);
@@ -184,7 +184,7 @@ mod tests {
             rho: 0.7,
             omega: 2.1,
         };
-        
+
         let desc = SpectralAdapter::describe(&sig);
         assert!(desc.contains("0.5000"));
         assert!(desc.contains("0.7000"));
@@ -196,7 +196,7 @@ mod tests {
         // Low entropy = high resonance
         let sig_low_entropy = SpectralAdapter::features_to_signature(0.2, &[0.5], 0.0);
         let sig_high_entropy = SpectralAdapter::features_to_signature(0.8, &[0.5], 0.0);
-        
+
         assert!(sig_low_entropy.rho > sig_high_entropy.rho);
         assert!((sig_low_entropy.rho - 0.8).abs() < 1e-10);
         assert!((sig_high_entropy.rho - 0.2).abs() < 1e-10);

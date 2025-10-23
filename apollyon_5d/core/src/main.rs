@@ -50,7 +50,12 @@ fn demo_sir_model() {
 
     // Print key statistics
     let final_state = trajectory.last().unwrap().1;
-    println!("Initial: S={:.3}, I={:.3}, R={:.3}", initial.get(0), initial.get(1), initial.get(2));
+    println!(
+        "Initial: S={:.3}, I={:.3}, R={:.3}",
+        initial.get(0),
+        initial.get(1),
+        initial.get(2)
+    );
     println!(
         "Final:   S={:.3}, I={:.3}, R={:.3}, D={:.3}",
         final_state.get(0),
@@ -118,7 +123,7 @@ fn demo_predator_prey() {
 
     // Find extrema (for oscillations) - only use valid states
     let valid_states: Vec<&State5D> = states.iter().filter(|s| s.is_valid()).collect();
-    
+
     if valid_states.is_empty() {
         println!("Warning: No valid states found");
         return;
@@ -130,19 +135,28 @@ fn demo_predator_prey() {
         .fold(f64::NEG_INFINITY, |a, &b| a.max(b));
     let min_prey1 = prey1_values.iter().fold(f64::INFINITY, |a, &b| a.min(b));
 
-    println!("Prey1 oscillates between {:.3} and {:.3}", min_prey1, max_prey1);
+    println!(
+        "Prey1 oscillates between {:.3} and {:.3}",
+        min_prey1, max_prey1
+    );
 
     // Demonstrate 2D projection
     let projector = projection::Projector::orthogonal(0, 2); // Prey1 vs Predator
     let points = projector.project_many(&valid_states.iter().map(|&&s| s).collect::<Vec<_>>());
 
     println!("Generated {} 2D projection points", points.len());
-    
+
     if !points.is_empty() {
         println!(
             "Phase space range: x=[{:.3}, {:.3}]",
-            points.iter().map(|p| p.x).fold(f64::INFINITY, |a, b| a.min(b)),
-            points.iter().map(|p| p.x).fold(f64::NEG_INFINITY, |a, b| a.max(b))
+            points
+                .iter()
+                .map(|p| p.x)
+                .fold(f64::INFINITY, |a, b| a.min(b)),
+            points
+                .iter()
+                .map(|p| p.x)
+                .fold(f64::NEG_INFINITY, |a, b| a.max(b))
         );
     }
 }
@@ -160,21 +174,40 @@ fn demo_ensemble() {
     let time_config = integration::TimeConfig::new(0.1, 0.0, 50.0);
 
     // Run ensemble
-    println!("Running {} simulations with randomized initial conditions...", config.num_runs);
+    println!(
+        "Running {} simulations with randomized initial conditions...",
+        config.num_runs
+    );
     let result = ensemble::run_ensemble(&config, &vf, &time_config);
 
     // Report statistics
     println!("Generated {} trajectories", result.trajectories.len());
-    
+
     if !result.mean_trajectory.is_empty() {
         let final_mean = result.mean_trajectory.last().unwrap();
         let final_std = result.std_trajectory.last().unwrap();
-        
+
         println!("\nFinal state statistics:");
-        println!("  Susceptible: {:.3} ± {:.3}", final_mean.get(0), final_std.get(0));
-        println!("  Infected:    {:.3} ± {:.3}", final_mean.get(1), final_std.get(1));
-        println!("  Recovered:   {:.3} ± {:.3}", final_mean.get(2), final_std.get(2));
-        println!("  Deceased:    {:.3} ± {:.3}", final_mean.get(4), final_std.get(4));
+        println!(
+            "  Susceptible: {:.3} ± {:.3}",
+            final_mean.get(0),
+            final_std.get(0)
+        );
+        println!(
+            "  Infected:    {:.3} ± {:.3}",
+            final_mean.get(1),
+            final_std.get(1)
+        );
+        println!(
+            "  Recovered:   {:.3} ± {:.3}",
+            final_mean.get(2),
+            final_std.get(2)
+        );
+        println!(
+            "  Deceased:    {:.3} ± {:.3}",
+            final_mean.get(4),
+            final_std.get(4)
+        );
     }
 }
 
@@ -192,7 +225,10 @@ fn demo_parameter_sweep() {
     let time_config = integration::TimeConfig::new(0.1, 0.0, 30.0);
 
     // Run sweep
-    println!("Running parameter sweep with {} values...", sweep.values.len());
+    println!(
+        "Running parameter sweep with {} values...",
+        sweep.values.len()
+    );
     let results = ensemble::run_parameter_sweep(&sweep, &template, initial, &time_config);
 
     // Report final states for each parameter value

@@ -90,7 +90,7 @@ impl VectorField {
 
             // Total rate of change
             let rate = intrinsic + coupling + forcing;
-            
+
             // Only set if finite
             if !result.set(i, rate) {
                 // If any component is non-finite, return zero vector

@@ -39,7 +39,7 @@ impl TrajectoryObserver {
         let n = self.history.len();
         let current = self.history[n - 1];
         let previous = self.history[n - 2];
-        
+
         Some(State5D::new(
             current.get(0) - previous.get(0),
             current.get(1) - previous.get(1),
@@ -58,7 +58,7 @@ impl TrajectoryObserver {
         let current = self.history[n - 1];
         let prev1 = self.history[n - 2];
         let prev2 = self.history[n - 3];
-        
+
         Some(State5D::new(
             current.get(0) - 2.0 * prev1.get(0) + prev2.get(0),
             current.get(1) - 2.0 * prev1.get(1) + prev2.get(1),
@@ -123,7 +123,7 @@ mod tests {
         let mut obs = TrajectoryObserver::new(10);
         obs.observe(State5D::new(0.0, 0.0, 0.0, 0.0, 0.0));
         obs.observe(State5D::new(1.0, 2.0, 3.0, 4.0, 5.0));
-        
+
         let vel = obs.velocity().unwrap();
         assert_eq!(vel.get(0), 1.0);
         assert_eq!(vel.get(1), 2.0);
@@ -134,7 +134,7 @@ mod tests {
         let mut obs = TrajectoryObserver::new(10);
         obs.observe(State5D::new(1.0, 0.0, 0.0, 0.0, 0.0));
         obs.observe(State5D::new(1.001, 0.0, 0.0, 0.0, 0.0));
-        
+
         assert!(obs.is_converging(0.01));
         assert!(!obs.is_converging(0.0001));
     }

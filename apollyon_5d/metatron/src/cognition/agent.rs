@@ -1,9 +1,9 @@
-use crate::config::{AgentConfig, PrototypeConfig};
-use crate::error::{EngineError, EngineResult};
-use crate::geometry::graph::MetatronCubeGraph;
 use crate::cognition::monolith::{DecisionState, MonolithDecision, OphanKernel, TripolarOperator};
 use crate::cognition::qlogic::{QLogicEngine, QLogicOutput};
 use crate::cognition::semantic_field::SemanticField;
+use crate::config::{AgentConfig, PrototypeConfig};
+use crate::error::{EngineError, EngineResult};
+use crate::geometry::graph::MetatronCubeGraph;
 
 #[derive(Debug, Clone)]
 pub struct AgentStep {

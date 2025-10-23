@@ -90,7 +90,7 @@ mod tests {
         let field = OscillatoryResonanceField::new(0.2, 1.0, 0.0);
         let m0 = field.modulation(0.0, 0, 1);
         assert!((m0 - 1.0).abs() < 0.01);
-        
+
         let m_quarter = field.modulation(0.25, 0, 1);
         assert!(m_quarter > 1.0);
     }

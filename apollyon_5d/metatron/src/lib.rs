@@ -16,10 +16,10 @@ pub mod spectral;
 pub mod visualization;
 
 // Re-export main types
-pub use cognition::{MetatronAgent, MasterAgent, QDASHAgent};
+pub use cognition::{MasterAgent, MetatronAgent, QDASHAgent};
 pub use config::{AgentConfig, EngineConfig, MasterAgentConfig};
 pub use engine::{EngineSnapshot, MetatronEngine};
 pub use error::{EngineError, EngineResult};
 pub use fields::{MandorlaField, ResonanceTensorField, TensorNetwork};
 pub use geometry::{MetatronCube, MetatronCubeGraph};
-pub use spectral::{SpectralPipeline, EntropyAnalyzer};
+pub use spectral::{EntropyAnalyzer, SpectralPipeline};

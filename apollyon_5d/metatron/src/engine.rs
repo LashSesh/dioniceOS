@@ -1,8 +1,8 @@
 use crate::cognition::agent::{AgentStep, MetatronAgent};
-use crate::config::EngineConfig;
-use crate::error::EngineResult;
 use crate::cognition::master::{MasterAgent, MasterAgentOutput};
 use crate::cognition::seraphic_feedback::SeraphicValue;
+use crate::config::EngineConfig;
+use crate::error::EngineResult;
 
 /// High-level orchestrator that wires the Metatron agent and master agent
 /// together into a cohesive post-symbolic cognition engine.

@@ -89,7 +89,9 @@ impl Template {
 
         Template {
             name: "Financial Market Model".to_string(),
-            description: "5-variable market dynamics with price, volume, sentiment, liquidity, and risk".to_string(),
+            description:
+                "5-variable market dynamics with price, volume, sentiment, liquidity, and risk"
+                    .to_string(),
             variable_names: [
                 "Price".to_string(),
                 "Volume".to_string(),

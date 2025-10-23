@@ -14,19 +14,19 @@
 //! - `export`: Data export in CSV and JSON formats
 //! - `validation`: Reference solutions for testing
 
-pub mod state;
 pub mod coupling;
 pub mod dynamics;
-pub mod integration;
-pub mod stability;
-pub mod projection;
-pub mod template;
-pub mod export;
-pub mod validation;
 pub mod ensemble;
+pub mod export;
+pub mod integration;
+pub mod projection;
+pub mod stability;
+pub mod state;
+pub mod template;
+pub mod validation;
 
-pub use state::State5D;
 pub use coupling::{CouplingMatrix, CouplingType};
 pub use dynamics::{SystemParameters, VectorField};
 pub use integration::Integrator;
+pub use state::State5D;
 pub use template::Template;

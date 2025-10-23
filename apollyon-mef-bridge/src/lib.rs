@@ -12,12 +12,8 @@ pub mod pipeline;
 pub mod unified;
 
 // Re-export key types for convenience
-pub use adapters::{
-    StateAdapter, SpectralAdapter, MetatronBridge, ResonanceBridge,
-};
-pub use unified::{
-    UnifiedCognitiveEngine, CognitiveInput, CognitiveOutput,
-};
+pub use adapters::{MetatronBridge, ResonanceBridge, SpectralAdapter, StateAdapter};
+pub use unified::{CognitiveInput, CognitiveOutput, UnifiedCognitiveEngine};
 
 /// Bridge version information
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

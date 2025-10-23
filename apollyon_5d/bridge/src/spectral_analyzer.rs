@@ -1,7 +1,7 @@
 // Spectral analyzer: Connect trajectory observation with QLogic spectral analysis
 
-use metatron::spectral::{SpectralPipeline, SpectralOutput};
 use crate::trajectory_observer::TrajectoryObserver;
+use metatron::spectral::{SpectralOutput, SpectralPipeline};
 
 /// Bridge component that analyzes 5D trajectories using Metatron's spectral cognition
 ///
@@ -66,14 +66,20 @@ impl SpectralAnalyzer {
     }
 
     /// Get dominant frequency for a component (peak in spectrum)
-    pub fn dominant_frequency(&self, observer: &TrajectoryObserver, component: usize) -> Option<f64> {
+    pub fn dominant_frequency(
+        &self,
+        observer: &TrajectoryObserver,
+        component: usize,
+    ) -> Option<f64> {
         let output = self.analyze_component(observer, component)?;
-        
+
         // Find peak in spectrum
-        let (max_idx, _) = output.spectrum.iter()
+        let (max_idx, _) = output
+            .spectrum
+            .iter()
             .enumerate()
             .max_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal))?;
-        
+
         Some(max_idx as f64 / output.spectrum.len() as f64)
     }
 
@@ -91,9 +97,11 @@ impl SpectralAnalyzer {
     /// Detect if system exhibits oscillatory behavior
     pub fn is_oscillatory(&self, observer: &TrajectoryObserver, threshold: f64) -> bool {
         let results = self.analyze_all(observer);
-        
+
         // Check if any component has high spectral concentration (low sparsity)
-        results.iter().any(|(_, output)| output.sparsity < threshold)
+        results
+            .iter()
+            .any(|(_, output)| output.sparsity < threshold)
     }
 
     /// Get spectral centroids for all components
@@ -132,23 +140,17 @@ mod tests {
     fn analyze_component_with_data() {
         let analyzer = SpectralAnalyzer::new();
         let mut observer = TrajectoryObserver::new(100);
-        
+
         // Add some oscillatory data
         for i in 0..50 {
             let t = i as f64 * 0.1;
-            let state = State5D::new(
-                t.sin(),
-                (2.0 * t).sin(),
-                (3.0 * t).sin(),
-                0.0,
-                0.0,
-            );
+            let state = State5D::new(t.sin(), (2.0 * t).sin(), (3.0 * t).sin(), 0.0, 0.0);
             observer.observe(state);
         }
 
         let output = analyzer.analyze_component(&observer, 0);
         assert!(output.is_some());
-        
+
         let output = output.unwrap();
         assert_eq!(output.field.len(), 50);
         assert_eq!(output.spectrum.len(), 50);
@@ -159,7 +161,7 @@ mod tests {
     fn analyze_all_components() {
         let analyzer = SpectralAnalyzer::for_components(vec![0, 1, 2]);
         let mut observer = TrajectoryObserver::new(100);
-        
+
         for i in 0..20 {
             let t = i as f64 * 0.1;
             observer.observe(State5D::new(t, t * 2.0, t * 3.0, 0.0, 0.0));
@@ -173,17 +175,11 @@ mod tests {
     fn average_entropy_calculation() {
         let analyzer = SpectralAnalyzer::new();
         let mut observer = TrajectoryObserver::new(100);
-        
+
         // Add some varying data
         for i in 0..30 {
             let t = i as f64 * 0.1;
-            observer.observe(State5D::new(
-                t.sin(),
-                t.cos(),
-                (t * 0.5).sin(),
-                0.5,
-                0.3,
-            ));
+            observer.observe(State5D::new(t.sin(), t.cos(), (t * 0.5).sin(), 0.5, 0.3));
         }
 
         let entropy = analyzer.average_entropy(&observer);
@@ -195,7 +191,7 @@ mod tests {
     fn spectral_centroids_computation() {
         let analyzer = SpectralAnalyzer::for_components(vec![0, 1]);
         let mut observer = TrajectoryObserver::new(100);
-        
+
         for i in 0..25 {
             let t = i as f64 * 0.1;
             observer.observe(State5D::new(t.sin(), t.cos(), 0.0, 0.0, 0.0));
