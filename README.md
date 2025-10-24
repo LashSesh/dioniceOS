@@ -2,7 +2,7 @@
 
 **A Revolutionary 4D-5D Cybernetical Matrix Integrating Geometric Cognition with Proof-Carrying Vector Intelligence**
 
-This repository implements the complete **Gabriel 4D-Trichter** system as specified in the Delta-Blueprint, seamlessly integrated with the APOLLYON-5D geometric-cognitive engine and the Infinity-Ledger (MEF-Core) proof-carrying vector ledger.
+This repository implements the complete **Gabriel 4D-Funnel** system as specified in the Delta-Blueprint, seamlessly integrated with the APOLLYON-5D geometric-cognitive engine and the Infinity-Ledger (MEF-Core) proof-carrying vector ledger.
 
 ---
 
@@ -10,7 +10,7 @@ This repository implements the complete **Gabriel 4D-Trichter** system as specif
 
 dioniceOS represents the convergence of three powerful mathematical frameworks:
 
-1. **4D-Trichter (Gabriel)**: Kinetic funnel compressor with morphodynamic coupling
+1. **4D-Funnel (Gabriel)**: Kinetic funnel compressor with morphodynamic coupling
 2. **APOLLYON-5D**: 5-dimensional geometric-cognitive mathematics engine  
 3. **Infinity-Ledger (MEF-Core)**: Proof-carrying vector ledger with cryptographic verification
 
