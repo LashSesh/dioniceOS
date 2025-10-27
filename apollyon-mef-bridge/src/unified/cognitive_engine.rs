@@ -10,12 +10,12 @@
 //! 7. Gate evaluation (FIRE/HOLD decision)
 //! 8. MEF-Core storage (if FIRE)
 
-use super::types::{CognitiveInput, CognitiveOutput};
+use super::types::{BatchResult, CognitiveInput, CognitiveOutput, GateConfig};
 use crate::adapters::{
     resonance_adapter::ProofOfResonanceData, MetatronBridge, ResonanceBridge, SpectralAdapter,
     StateAdapter,
 };
-use bridge::{ConstantResonanceField, SpectralAnalyzer, TrajectoryObserver};
+use bridge::{ConstantResonanceField, ResonanceField, SpectralAnalyzer, TrajectoryObserver};
 use core_5d::{Integrator, VectorField};
 use mef_schemas::{GateDecision, KnowledgeObject, SpectralSignature};
 use thiserror::Error;
@@ -60,15 +60,74 @@ pub struct UnifiedCognitiveEngine {
 
     /// Metatron bridge for routing
     metatron_bridge: MetatronBridge,
+
+    /// Gate evaluation configuration
+    gate_config: GateConfig,
+
+    /// Custom resonance field for PoR computation
+    resonance_field: Box<dyn ResonanceField>,
 }
 
 impl UnifiedCognitiveEngine {
-    /// Create a new unified cognitive engine
+    /// Create a new unified cognitive engine with default configuration
     pub fn new() -> Self {
+        let gate_config = GateConfig::default();
+        let resonance_field = Box::new(ConstantResonanceField::new(gate_config.resonance_strength));
+        Self::new_with_components(gate_config, resonance_field)
+    }
+
+    /// Create a new unified cognitive engine with custom gate configuration
+    pub fn new_with_config(gate_config: GateConfig) -> Self {
+        let resonance_field = Box::new(ConstantResonanceField::new(gate_config.resonance_strength));
+        Self::new_with_components(gate_config, resonance_field)
+    }
+
+    /// Create a new unified cognitive engine with custom resonance field
+    ///
+    /// # Arguments
+    /// * `resonance_field` - Custom resonance field implementation
+    ///
+    /// # Examples
+    /// ```ignore
+    /// use bridge::OscillatoryResonanceField;
+    ///
+    /// let field = Box::new(OscillatoryResonanceField::new(0.2, 1.0, 0.0));
+    /// let engine = UnifiedCognitiveEngine::new_with_field(field);
+    /// ```
+    pub fn new_with_field(resonance_field: Box<dyn ResonanceField>) -> Self {
+        Self::new_with_components(GateConfig::default(), resonance_field)
+    }
+
+    /// Create a new unified cognitive engine with all custom components
+    ///
+    /// # Arguments
+    /// * `gate_config` - Gate evaluation configuration
+    /// * `resonance_field` - Custom resonance field implementation
+    pub fn new_with_components(
+        gate_config: GateConfig,
+        resonance_field: Box<dyn ResonanceField>,
+    ) -> Self {
         Self {
             spectral_analyzer: SpectralAnalyzer::new(),
             metatron_bridge: MetatronBridge::new(),
+            gate_config,
+            resonance_field,
         }
+    }
+
+    /// Get the current gate configuration
+    pub fn gate_config(&self) -> &GateConfig {
+        &self.gate_config
+    }
+
+    /// Set a new gate configuration
+    pub fn set_gate_config(&mut self, config: GateConfig) {
+        self.gate_config = config;
+    }
+
+    /// Set a new resonance field
+    pub fn set_resonance_field(&mut self, field: Box<dyn ResonanceField>) {
+        self.resonance_field = field;
     }
 
     /// Process input through the complete unified pipeline
@@ -150,6 +209,40 @@ impl UnifiedCognitiveEngine {
             gate_decision,
             knowledge: Some(knowledge),
         })
+    }
+
+    /// Process multiple inputs in batch
+    ///
+    /// # Arguments
+    /// * `inputs` - Vector of cognitive inputs to process
+    ///
+    /// # Returns
+    /// BatchResult containing successful outputs and any failures
+    ///
+    /// # Performance
+    /// Processes inputs sequentially. Each input is processed independently,
+    /// so failures do not affect other inputs in the batch.
+    ///
+    /// # Examples
+    /// ```ignore
+    /// let inputs = vec![input1, input2, input3];
+    /// let batch_result = engine.process_batch(inputs);
+    /// println!("Success rate: {:.1}%", batch_result.success_rate());
+    /// ```
+    pub fn process_batch(&mut self, inputs: Vec<CognitiveInput>) -> BatchResult {
+        let start_time = std::time::Instant::now();
+        let mut successes = Vec::new();
+        let mut failures = Vec::new();
+
+        for (index, input) in inputs.into_iter().enumerate() {
+            match self.process(input) {
+                Ok(output) => successes.push(output),
+                Err(e) => failures.push((index, e.to_string())),
+            }
+        }
+
+        let total_time = start_time.elapsed().as_secs_f64();
+        BatchResult::new(successes, failures, total_time)
     }
 
     /// Integrate 5D dynamics from initial state
@@ -266,10 +359,8 @@ impl UnifiedCognitiveEngine {
         let state_prev = &trajectory[trajectory.len() - 2];
         let state_curr = &trajectory[trajectory.len() - 1];
 
-        // Use constant resonance field for simplicity
-        let field = ConstantResonanceField::new(0.8);
-
-        ResonanceBridge::compute_proof(&field, state_prev, state_curr, 0.0)
+        // Use the custom resonance field
+        ResonanceBridge::compute_proof(self.resonance_field.as_ref(), state_prev, state_curr, 0.0)
     }
 
     /// Evaluate Merkaba Gate decision
@@ -282,10 +373,15 @@ impl UnifiedCognitiveEngine {
         let state_prev = &trajectory[trajectory.len() - 2];
         let state_curr = &trajectory[trajectory.len() - 1];
 
-        // Use constant resonance field for simplicity
-        let field = ConstantResonanceField::new(0.8);
-
-        ResonanceBridge::evaluate_gate(&field, state_prev, state_curr, 0.0)
+        // Use custom thresholds and resonance field from configuration
+        ResonanceBridge::evaluate_gate_with_thresholds(
+            self.resonance_field.as_ref(),
+            state_prev,
+            state_curr,
+            0.0,
+            self.gate_config.epsilon,
+            self.gate_config.phi_threshold,
+        )
     }
 }
 
@@ -444,5 +540,216 @@ mod tests {
         assert_eq!(knowledge.route_id, "ROUTE-001");
         assert_eq!(knowledge.seed_path, "MEF/test/stage/0001");
         assert!(knowledge.payload.is_some());
+    }
+
+    #[test]
+    fn test_configurable_gate_thresholds() {
+        // Test with strict configuration
+        let strict_config = GateConfig::strict();
+        let mut strict_engine = UnifiedCognitiveEngine::new_with_config(strict_config);
+
+        let input = CognitiveInput {
+            initial_state: State5D::new(1.0, 0.5, 0.3, 0.2, 0.1),
+            parameters: core_5d::SystemParameters::default(),
+            t_final: 0.1,
+            tic_id: "TIC-STRICT".to_string(),
+            seed: "strict_test".to_string(),
+            seed_path: "MEF/test/strict/0001".to_string(),
+        };
+
+        let result_strict = strict_engine.process(input.clone());
+        assert!(result_strict.is_ok());
+
+        // Test with relaxed configuration
+        let relaxed_config = GateConfig::relaxed();
+        let mut relaxed_engine = UnifiedCognitiveEngine::new_with_config(relaxed_config);
+
+        let result_relaxed = relaxed_engine.process(input);
+        assert!(result_relaxed.is_ok());
+
+        // Relaxed should be more likely to FIRE than strict
+        // (Though specific behavior depends on the trajectory)
+    }
+
+    #[test]
+    fn test_gate_config_methods() {
+        let mut engine = UnifiedCognitiveEngine::new();
+
+        // Check default configuration
+        let default_config = engine.gate_config();
+        assert_eq!(default_config.epsilon, 0.1);
+        assert_eq!(default_config.phi_threshold, 0.5);
+        assert_eq!(default_config.resonance_strength, 0.8);
+
+        // Update configuration
+        let custom_config = GateConfig::new(0.2, 0.6, 0.9);
+        engine.set_gate_config(custom_config);
+
+        // Verify update
+        let updated_config = engine.gate_config();
+        assert_eq!(updated_config.epsilon, 0.2);
+        assert_eq!(updated_config.phi_threshold, 0.6);
+        assert_eq!(updated_config.resonance_strength, 0.9);
+    }
+
+    #[test]
+    fn test_custom_resonance_field() {
+        use bridge::OscillatoryResonanceField;
+
+        // Create engine with oscillatory resonance field
+        let osc_field = Box::new(OscillatoryResonanceField::new(0.2, 1.0, 0.0));
+        let mut engine = UnifiedCognitiveEngine::new_with_field(osc_field);
+
+        let input = CognitiveInput {
+            initial_state: State5D::new(1.0, 0.5, 0.3, 0.2, 0.1),
+            parameters: core_5d::SystemParameters::default(),
+            t_final: 0.5,
+            tic_id: "TIC-OSC".to_string(),
+            seed: "osc_test".to_string(),
+            seed_path: "MEF/test/osc/0001".to_string(),
+        };
+
+        let result = engine.process(input);
+        assert!(result.is_ok());
+
+        let output = result.unwrap();
+        assert!(!output.trajectory.is_empty());
+        assert!(output.proof.por_valid);
+    }
+
+    #[test]
+    fn test_custom_components() {
+        use bridge::OscillatoryResonanceField;
+
+        // Create engine with both custom config and custom field
+        let gate_config = GateConfig::relaxed();
+        let resonance_field = Box::new(OscillatoryResonanceField::new(0.3, 2.0, 0.0));
+        let mut engine = UnifiedCognitiveEngine::new_with_components(gate_config, resonance_field);
+
+        let input = CognitiveInput {
+            initial_state: State5D::new(1.0, 0.5, 0.3, 0.2, 0.1),
+            parameters: core_5d::SystemParameters::default(),
+            t_final: 0.3,
+            tic_id: "TIC-CUSTOM".to_string(),
+            seed: "custom_test".to_string(),
+            seed_path: "MEF/test/custom/0001".to_string(),
+        };
+
+        let result = engine.process(input);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_set_resonance_field() {
+        use bridge::OscillatoryResonanceField;
+
+        let mut engine = UnifiedCognitiveEngine::new();
+
+        // Change resonance field after creation
+        let new_field = Box::new(OscillatoryResonanceField::new(0.1, 0.5, 0.0));
+        engine.set_resonance_field(new_field);
+
+        let input = CognitiveInput {
+            initial_state: State5D::new(1.0, 0.0, 0.0, 0.0, 0.0),
+            parameters: core_5d::SystemParameters::default(),
+            t_final: 0.2,
+            tic_id: "TIC-CHANGE".to_string(),
+            seed: "change_test".to_string(),
+            seed_path: "MEF/test/change/0001".to_string(),
+        };
+
+        let result = engine.process(input);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_batch_processing_success() {
+        let mut engine = UnifiedCognitiveEngine::new();
+
+        // Create multiple inputs
+        let inputs = vec![
+            CognitiveInput {
+                initial_state: State5D::new(1.0, 0.5, 0.3, 0.2, 0.1),
+                parameters: core_5d::SystemParameters::default(),
+                t_final: 0.5,
+                tic_id: "TIC-BATCH-1".to_string(),
+                seed: "batch_test_1".to_string(),
+                seed_path: "MEF/test/batch/0001".to_string(),
+            },
+            CognitiveInput {
+                initial_state: State5D::new(0.8, 0.4, 0.2, 0.1, 0.05),
+                parameters: core_5d::SystemParameters::default(),
+                t_final: 0.3,
+                tic_id: "TIC-BATCH-2".to_string(),
+                seed: "batch_test_2".to_string(),
+                seed_path: "MEF/test/batch/0002".to_string(),
+            },
+            CognitiveInput {
+                initial_state: State5D::new(1.2, 0.6, 0.4, 0.3, 0.2),
+                parameters: core_5d::SystemParameters::default(),
+                t_final: 0.7,
+                tic_id: "TIC-BATCH-3".to_string(),
+                seed: "batch_test_3".to_string(),
+                seed_path: "MEF/test/batch/0003".to_string(),
+            },
+        ];
+
+        let batch_result = engine.process_batch(inputs);
+
+        // All should succeed
+        assert_eq!(batch_result.success_count(), 3);
+        assert_eq!(batch_result.failure_count(), 0);
+        assert!(batch_result.all_succeeded());
+        assert_eq!(batch_result.success_rate(), 100.0);
+        assert!(batch_result.total_time > 0.0);
+        assert!(batch_result.avg_time > 0.0);
+    }
+
+    #[test]
+    fn test_batch_processing_empty() {
+        let mut engine = UnifiedCognitiveEngine::new();
+
+        let inputs: Vec<CognitiveInput> = vec![];
+        let batch_result = engine.process_batch(inputs);
+
+        assert_eq!(batch_result.success_count(), 0);
+        assert_eq!(batch_result.failure_count(), 0);
+        assert_eq!(batch_result.total_count(), 0);
+        assert!(batch_result.all_succeeded());
+    }
+
+    #[test]
+    fn test_batch_result_metrics() {
+        let mut engine = UnifiedCognitiveEngine::new();
+
+        let inputs = vec![
+            CognitiveInput {
+                initial_state: State5D::new(1.0, 0.0, 0.0, 0.0, 0.0),
+                parameters: core_5d::SystemParameters::default(),
+                t_final: 0.1,
+                tic_id: "TIC-METRIC-1".to_string(),
+                seed: "metric_1".to_string(),
+                seed_path: "MEF/test/metric/0001".to_string(),
+            },
+            CognitiveInput {
+                initial_state: State5D::new(1.0, 0.0, 0.0, 0.0, 0.0),
+                parameters: core_5d::SystemParameters::default(),
+                t_final: 0.1,
+                tic_id: "TIC-METRIC-2".to_string(),
+                seed: "metric_2".to_string(),
+                seed_path: "MEF/test/metric/0002".to_string(),
+            },
+        ];
+
+        let batch_result = engine.process_batch(inputs);
+
+        // Check metrics
+        assert_eq!(batch_result.total_count(), 2);
+        assert!(batch_result.total_time >= 0.0);
+        assert!(batch_result.avg_time >= 0.0);
+
+        // Average time should be total time divided by count
+        let expected_avg = batch_result.total_time / 2.0;
+        assert!((batch_result.avg_time - expected_avg).abs() < 1e-10);
     }
 }

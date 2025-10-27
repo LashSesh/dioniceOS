@@ -9,12 +9,17 @@
 
 pub mod adapters;
 pub mod pipeline;
-pub mod unified;
+pub mod storage;
 pub mod trichter;
+pub mod unified;
 
 // Re-export key types for convenience
 pub use adapters::{MetatronBridge, ResonanceBridge, SpectralAdapter, StateAdapter};
-pub use unified::{CognitiveInput, CognitiveOutput, UnifiedCognitiveEngine};
+pub use storage::{LedgerStorage, MemoryStorage, StorageBackend, StorageError, StorageStats};
+pub use unified::{
+    AsyncUnifiedCognitiveEngine, BatchResult, CognitiveInput, CognitiveOutput, GateConfig,
+    UnifiedCognitiveEngine,
+};
 pub use trichter::{
     coupling_tick, FunnelGraph, HDAGField, Hyperbion, Policy, PolicyParams, 
     State4D, State5D, lift, proj_4d,
