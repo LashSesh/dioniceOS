@@ -426,17 +426,12 @@ println!("Gesamtknoten: {}", funnel.node_count());
 
 ## 📚 Dokumentation
 
-### Umfassende Leitfäden
-- **[INTEGRATION_PLAN.md](./INTEGRATION_PLAN.md)** - Vollständiger Integrations-Fahrplan (EN)
-- **[apollyon_mef.md](./apollyon_mef.md)** - Tiefe technische Analyse (EN)
-- **[4D_Trichter.pdf](./4D_Trichter.pdf)** - Delta-Blueprint Spezifikation (DE)
-- **[apollyon_5d/README.md](./apollyon_5d/README.md)** - APOLLYON-5D Dokumentation (EN)
-- **[infinity-ledger/README.md](./infinity-ledger/README.md)** - MEF-Core Dokumentation (EN)
-
-### Implementierungsstatus
-- **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** - Aktueller Fortschritt (EN)
-- **[STEPS_5_6_COMPLETE.md](./STEPS_5_6_COMPLETE.md)** - Adapter-Vervollständigung (EN)
-- **[STEP_7_COMPLETE.md](./STEP_7_COMPLETE.md)** - Vereinheitlichte Engine-Vervollständigung (EN)
+- **[4D_Trichter.pdf](./4D_Trichter.pdf)** - Delta-Blueprint Spezifikation
+- **[5D_Cube.pdf](./5D_Cube.pdf)** - 5D-Würfel-System Spezifikation
+- **[CHANGELOG.md](./CHANGELOG.md)** - Versionshistorie und Release-Notes
+- **[apollyon_5d/README.md](./apollyon_5d/README.md)** - APOLLYON-5D Dokumentation
+- **[infinity-ledger/README.md](./infinity-ledger/README.md)** - MEF-Core Dokumentation
+- **[apollyon-mef-bridge/](./apollyon-mef-bridge/)** - Integration Bridge Dokumentation
 
 ---
 
@@ -490,9 +485,9 @@ Diese Integration repräsentiert ein neues Paradigma im Computing:
 
 ---
 
-**Letzte Aktualisierung**: Oktober 2025  
-**Version**: 1.0.0 (4D-Trichter Implementierung Vollständig)  
-**Status**: Produktionsreif 🚀
+**Letzte Aktualisierung**: November 2025
+**Version**: 1.0.0
+**Status**: Produktionsreif
 
 ---
 

@@ -123,7 +123,7 @@ impl AsyncUnifiedCognitiveEngine {
             }
 
             // Await all tasks in this chunk
-            for (local_idx, handle) in handles {
+            for (_local_idx, handle) in handles {
                 let global_idx = successes.len() + failures.len();
                 match handle.await {
                     Ok(Ok(output)) => successes.push(output),
@@ -169,7 +169,7 @@ impl Clone for UnifiedCognitiveEngine {
     fn clone(&self) -> Self {
         // For cloning, we create a new engine with the same configuration
         // but a new (default) resonance field
-        Self::new_with_config(self.gate_config.clone())
+        Self::new_with_config(self.gate_config().clone())
     }
 }
 

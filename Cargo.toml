@@ -10,11 +10,14 @@ resolver = "2"
 # their components via path dependencies.
 
 [workspace.package]
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["APOLLYON-MEF Integration Team"]
 license = "MIT"
 repository = "https://github.com/LashSesh/dioniceOS"
+description = "Geometric-Cognitive Computing Platform - A 4D-5D Cybernetical Matrix"
+keywords = ["geometric-computing", "cognitive", "5d", "deterministic", "proof-carrying"]
+categories = ["science", "mathematics"]
 
 [workspace.dependencies]
 # Serialization

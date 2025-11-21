@@ -93,6 +93,7 @@ pub struct CognitiveInput {
 /// Output from cognitive processing
 ///
 /// Contains all results from the unified APOLLYON + MEF pipeline
+#[derive(Debug)]
 pub struct CognitiveOutput {
     /// Final 5D trajectory from APOLLYON integration
     pub trajectory: Vec<State5D>,
