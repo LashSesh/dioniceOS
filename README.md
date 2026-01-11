@@ -68,9 +68,9 @@ Local cryptographic hashing (SHA-256) enables deterministic replay. Complete aud
 
 ## Architecture Details
 
-### 4D-Trichter System
+### Cognitive 4D-Funnel System
 
-The 4D-Trichter implements a three-layer morphodynamic processing architecture:
+The 4D-Funnel implements a three-layer morphodynamic processing architecture:
 
 #### Layer 1: Funnel Graph (Kinetic Compressor)
 
