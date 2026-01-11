@@ -1,176 +1,329 @@
-# dioniceOS - Geometric-Cognitive Computing Platform
+# DioniceOS
 
-**A Revolutionary 4D-5D Cybernetical Matrix Integrating Geometric Cognition with Proof-Carrying Vector Intelligence**
+**A Geometric-Cognitive Computing Platform for Verifiable Intelligence**
 
-This repository implements the complete **Gabriel 4D-Funnel** system as specified in the Delta-Blueprint, seamlessly integrated with the APOLLYON-5D geometric-cognitive engine and the Infinity-Ledger (MEF-Core) proof-carrying vector ledger.
-
----
-
-## 🌟 Overview
-
-dioniceOS represents the convergence of three powerful mathematical frameworks:
-
-1. **4D-Funnel (Gabriel)**: Kinetic funnel compressor with morphodynamic coupling
-2. **APOLLYON-5D**: 5-dimensional geometric-cognitive mathematics engine  
-3. **Infinity-Ledger (MEF-Core)**: Proof-carrying vector ledger with cryptographic verification
-
-Together, these systems create a **deterministic, offline-reconstructible** cybernetical matrix that operates across 4D and 5D state spaces with perfect mathematical coherence.
+Version 1.0.0 | Production Ready
 
 ---
 
-## 🏗️ Architecture
+## Abstract
 
-### Core Components
+DioniceOS is a geometric-cognitive computing platform that unifies three mathematical frameworks into a deterministic, proof-carrying computational engine. The system operates in a consistent 5-dimensional state space, enabling verifiable AI reasoning, morphodynamic pattern recognition, and cryptographically auditable knowledge graph operations.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  4D-TRICHTER (Gabriel) - Deterministic Morphodynamic System     │
-│                                                                  │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│  │  4D Funnel   │◄──►│  Hyperbion   │◄──►│  HDAG Field  │     │
-│  │   (Trichter) │    │    Layer     │    │   (5D Grid)  │     │
-│  └──────────────┘    └──────────────┘    └──────────────┘     │
-│         │                    │                    │             │
-│         └────────────────────┴────────────────────┘             │
-│                              │                                  │
-└──────────────────────────────┼──────────────────────────────────┘
-                               │
-            ┌──────────────────┴──────────────────┐
-            │                                     │
-┌───────────▼────────────┐          ┌────────────▼─────────────┐
-│   APOLLYON-5D          │          │  Infinity-Ledger         │
-│   Geometric Engine     │          │  (MEF-Core)              │
-│                        │          │                          │
-│  • 5D Dynamical       │          │  • Proof-of-Resonance    │
-│  • Metatron Cube      │          │  • Hash-Chained Ledger   │
-│  • Spectral Analysis  │          │  • Vector Memory         │
-│  • QLogic/QDASH       │          │  • S7 Routing            │
-└────────────────────────┘          └──────────────────────────┘
-```
+## Overview
+
+### System Architecture
+
+DioniceOS integrates three complementary mathematical frameworks:
+
+**4D-Trichter (Gabriel)**
+A morphodynamic pattern compression system combining a kinetic funnel compressor, morphodynamic coupling layer (Hyperbion), and 5-dimensional resonance grid (HDAG Field). Implements deterministic state evolution with cryptographic proof generation.
+
+**APOLLYON-5D**
+A 5-dimensional geometric-cognitive mathematics engine featuring dynamical systems integration, Metatron cube geometry, spectral analysis (QLogic), and adaptive coupling mechanisms with symmetry preservation.
+
+**Infinity-Ledger (MEF-Core)**
+A proof-carrying vector ledger providing immutable hash-chained storage, vector search capabilities (HNSW, IVF-PQ), deterministic S7 routing (Metatron), and content-addressed knowledge objects with cryptographic verification.
 
 ### Mathematical Foundation
 
-#### Coordinate Spaces
-
-All systems operate in a unified 5D mathematical space:
+All components operate in a unified 5-dimensional coordinate space:
 
 ```
-s₅D = (x, y, z, ψ, ω) ∈ ℝ⁵
-s₄D = (x, y, z, ψ) ∈ ℝ⁴
+State₅D = (x, y, z, ψ, ω) ∈ ℝ⁵
+
+where:
+  x, y, z: Spatial coordinates (D1-D3)
+  ψ (psi): Semantic weight / Resonance strength (D4)
+  ω (omega): Temporal phase / Oscillation frequency (D5)
 ```
 
-Where:
-- **x, y, z**: Spatial coordinates
-- **ψ** (psi): Semantic weight / Resonance
-- **ω** (omega): Temporal phase / Oscillation
-
-#### Lift and Projection
-
-**Lift** (4D → 5D):
-```
-lift: ℝ⁴ → ℝ⁵
-lift((x, y, z, ψ), ω) = (x, y, z, ψ, ω)
-```
-
-**Projection** (5D → 4D):
-```
-proj₄D: ℝ⁵ → ℝ⁴  
-proj₄D(vₓ, vᵧ, vᵧ, vᵩ, vᵪ) = (vₓ, vᵧ, vᵧ, vᵩ)
-```
+**Coordinate Transformation Operations:**
+- Lift: ℝ⁴ → ℝ⁵ (adds temporal phase dimension)
+- Projection: ℝ⁵ → ℝ⁴ (removes temporal phase dimension)
+- Roundtrip Accuracy: Error < 1×10⁻¹⁰ (deterministic, lossless)
 
 ---
 
-## 🔬 The 4D-Trichter System
+## System Guarantees
 
-### Components
+DioniceOS provides mathematically rigorous guarantees:
 
-#### 1. Funnel Graph (4D Kinetic Compressor)
+**Determinism**
+Identical inputs with identical policies produce identical outputs. All operations are reproducible across systems and time without hidden state or randomness.
 
-The Funnel is a directed graph that condenses input flows into directed patterns:
+**Bündigkeit (Flush Coherence)**
+Perfect alignment between 4D and 5D representations. Curvature and misalignment decrease under stable coupling. Lift/projection operations maintain mathematical structure with negligible error.
 
-- **Nodes**: 5D state vectors with mass and variance
-- **Edges**: Hebbian-weighted connections with phase locking
-- **Operations**: Split, Merge, Prune based on policies
+**Homeostasis**
+Adaptive regulation maintains node density ρ within [ρ_min, ρ_max]. Hysteresis mechanisms prevent oscillation and ensure stability.
 
-#### 2. Hyperbion Layer (Morphodynamic Coupling)
+**Natural Acyclicity**
+Directed acyclic graph structure emerges naturally from phase disalignment. Cycles collapse in non-coherent subspaces without explicit enforcement.
 
-The Hyperbion provides viscoelastic coupling between 4D flow and 5D field:
+**Proof-Carrying Computation**
+Local cryptographic hashing (SHA-256) enables deterministic replay. Complete audit trails are maintained without network dependencies.
+
+---
+
+## Architecture Details
+
+### 4D-Trichter System
+
+The 4D-Trichter implements a three-layer morphodynamic processing architecture:
+
+#### Layer 1: Funnel Graph (Kinetic Compressor)
+
+Directed graph structure for pattern compression:
+- Nodes: 5D state vectors with accumulated mass and variance
+- Edges: Hebbian-weighted connections with phase-locking properties
+- Operations: Split (pattern divergence), Merge (pattern convergence), Prune (obsolescence removal)
+
+#### Layer 2: Hyperbion (Morphodynamic Coupling)
+
+Viscoelastic coupling between 4D flow and 5D field:
 
 ```
 H(x,t) = α·Φ(x,t) + β·μ(x,t)
+
+where:
+  Φ: Phase/Resonance field
+  μ: Morphodynamic growth/damping field
+  α, β: Modulation constants
 ```
 
-Where:
-- **Φ**: Phase/Resonance field
-- **μ**: Morphodynamic growth/damping field
-- **α, β**: Modulation constants
+Extracts resonance features and morphodynamic gradients for state guidance.
 
-#### 3. HDAG Field (5D Resonance Grid)
+#### Layer 3: HDAG Field (5D Resonance Grid)
 
-The HDAG is a hyperdimensional acyclic resonance grid:
+Hyperdimensional directed acyclic graph:
+- Nodes: 5D resonance tensors T_i ∈ ℝ⁵
+- Edges: Phase-gradient transitions Φ_ij(t)
+- Properties: Acyclicity emerges from phase disalignment
 
-- **Nodes**: 5D resonance tensors Tᵢ ∈ ℝ⁵
-- **Edges**: Phase-gradient transitions Φᵢⱼ(t)
-- **Acyclicity**: Emerges from phase disalignment
+#### Deterministic Coupling Algorithm
 
-### Deterministic Coupling Algorithm
+```
+Algorithm: coupling_tick(s_4D(t), t, Π, hyperbion, hdag, funnel)
 
-```python
-Algorithm: coupling_tick(s₄D_t, t, Π, hyperbion, hdag, funnel)
-─────────────────────────────────────────────────────────────────
-1. s₅D_t ← lift(s₄D_t, ω=t)
-2. (Φ, μ) ← hyperbion.absorption(s₅D_t)
+1. s_5D(t) ← lift(s_4D(t), ω=t)
+2. (Φ, μ) ← hyperbion.absorption(s_5D(t))
 3. hdag.relax(Φ, μ)
 4. ∇Φ ← hdag.gradient()
-5. v_guide ← proj₄D(∇Φ)
-6. s₄D_{t+1} ← funnel.advect(s₄D_t, v_guide, Π)
-7. if proofs: commit ← hash(s₄D_t, s₄D_{t+1}, Φ, μ, Π)
-8. return s₄D_{t+1}
+5. v_guide ← proj_4D(∇Φ)
+6. s_4D(t+1) ← funnel.advect(s_4D(t), v_guide, Π)
+7. if proofs: commit ← hash(s_4D(t), s_4D(t+1), Φ, μ, Π)
+8. return s_4D(t+1)
 ```
 
-**Key Properties:**
-- ✅ Deterministic (same inputs → identical outputs)
-- ✅ Offline-reconstructible (no network dependencies)
-- ✅ Proof-carrying (cryptographic verification)
-- ✅ Bündig (flush coupling between 4D ↔ 5D)
+### Policy System
+
+Three deterministic policies control system behavior:
+
+**Explore Policy**
+- Learning rate: α_hebb = 0.5 (high)
+- Decay: 0.05 (medium)
+- Merge/prune thresholds: Low
+- Use case: Discovery, diversity preservation, initial exploration
+
+**Exploit Policy**
+- Learning rate: α_hebb = 0.2 (medium)
+- Decay: 0.01 (low)
+- Merge threshold: High
+- Phase locking: Strict
+- Use case: Consolidation, optimization, pattern reinforcement
+
+**Homeostasis Policy**
+- Parameters: Adaptive based on density
+- Target density: ρ̄ (configurable)
+- Stability: Hysteresis-based regulation
+- Use case: Stable operation, density regulation, production environments
+
+### APOLLYON-5D Components
+
+**Core Capabilities:**
+- 5D dynamical systems with Heun's method (RK2) integration
+- Stability analysis via Jacobian computation and eigenvalue decomposition
+- Four coupling types: Linear, Quadratic, Product, Sigmoid
+- Domain templates: SIR epidemiology, financial markets, predator-prey dynamics
+
+**Metatron Geometric Engine:**
+- 13-node canonical Metatron cube structure
+- C6 rotational symmetry (6-fold rotation)
+- D6 dihedral symmetry (6 reflections)
+- QLogic spectral analysis (Fourier-like transformation)
+- QDASH decision engine with Mandorla resonance fields
+
+**Integration Layer:**
+- ResonanceField trait with multiple implementations
+- AdaptiveCoupling with time-varying dynamics
+- Geometric state space projection
+- TrajectoryObserver for feedback mechanisms
+- SpectralAnalyzer for feature extraction
+- ParameterTuner for optimization
+- CognitiveSimulator for batch processing
+
+### Infinity-Ledger Components
+
+**Core Infrastructure:**
+- mef-core: MEF pipeline and fractal processing
+- mef-spiral: Deterministic snapshot system
+- mef-ledger: Hash-chained immutable ledger
+- mef-hdag: Hierarchical directed acyclic graph
+- mef-tic: Temporal Information Crystals
+- mef-coupling: Spiral coupling engine
+
+**Knowledge Engine:**
+- mef-schemas: Extension type system
+- mef-knowledge: Knowledge derivation and content addressing
+- mef-memory: Vector memory with pluggable backends
+- mef-router: Deterministic S7 route selection
+- mef-topology: Metatron router and topological operations
+
+**Data Management:**
+- mef-vector-db: Vector database abstraction (HNSW, IVF-PQ)
+- mef-storage: Persistent storage with S3 support
+- mef-audit: Merkaba gate and audit logging
+
+**Applications:**
+- mef-api: HTTP REST API server (Axum framework)
+- mef-cli: Command-line interface
+- mef-bench: Cross-database benchmarking
+- mef-benchmarks: Performance benchmarks (Criterion)
+
+### Integration Bridge
+
+The apollyon-mef-bridge provides seamless integration:
+
+**Adapters** (Bidirectional Type Converters):
+- state_adapter: State5D ↔ MEF coordinates (error < 1×10⁻¹⁰)
+- spectral_adapter: Features ↔ Signature mapping
+- metatron_adapter: Cube-13 ↔ S7 routing
+- resonance_adapter: Field ↔ Proof-of-Resonance
+
+**Unified 8-Phase Processing Pipeline:**
+1. APOLLYON integration (5D dynamics computation)
+2. Spectral analysis (feature extraction via QLogic)
+3. State conversion (coordinate mapping)
+4. Route selection (S7 mesh scoring)
+5. Knowledge derivation (content addressing)
+6. Proof-of-Resonance computation (cryptographic validation)
+7. Gate evaluation (Merkaba logic)
+8. Conditional storage (FIRE/HOLD decision)
+
+**Storage Backends:**
+- Memory storage: ~100,000+ writes/sec (RAM-bound)
+- Ledger storage: ~10-100 writes/sec (disk-bound with cryptographic verification)
 
 ---
 
-## 📋 Policies
+## Use Cases
 
-The system supports three deterministic policies:
+### Verifiable AI Reasoning
 
-### 1. **Explore** Policy
-- High Hebbian learning (α_hebb = 0.5)
-- Medium decay (0.05)
-- Low merge/prune thresholds
-- **Use case**: Discovery, exploration, diversity preservation
+Encode queries as 5D state vectors, integrate through 4D-Trichter dynamics, generate cryptographic proofs, and store verified state transitions in the MEF ledger with complete audit trails.
 
-### 2. **Exploit** Policy  
-- Medium Hebbian learning (α_hebb = 0.2)
-- Low decay (0.01)
-- High merge threshold
-- Strict phase locking
-- **Use case**: Consolidation, optimization, exploitation
+### Geometric Knowledge Graphs
 
-### 3. **Homeostasis** Policy
-- Adaptive parameters
-- Targets specific node density ρ̄
-- Uses hysteresis for stability
-- **Use case**: Stable operation, density regulation
+Represent concepts as 5D nodes with Hebbian-learning edges in the Funnel graph. Perform vector search in 8D space (5D state + 3D spectral features) with temporal evolution tracking and provenance.
+
+### Morphodynamic Pattern Recognition
+
+Process input patterns through the 4D Funnel compressor, extract resonance features via the Hyperbion layer, guide clustering with HDAG field gradients, and control exploration vs. exploitation trade-offs with policy selection.
+
+### Self-Optimizing Systems
+
+Monitor system performance metrics, maintain optimal density with Homeostasis policy, enable state rollback via proven transitions, and maintain cryptographic audit trails for compliance.
 
 ---
 
-## 🚀 Building and Testing
+## Technical Specifications
+
+### Technology Stack
+
+**Language:** Rust (Edition 2021, minimum version 1.70+)
+**Build System:** Cargo (workspace-based architecture)
+**Codebase:** 257 Rust files, ~64,000 lines of code and documentation
+
+**Core Dependencies:**
+- nalgebra 0.33, ndarray 0.15 (linear algebra)
+- serde, serde_json (serialization)
+- sha2 (cryptographic hashing)
+- tokio 1.0 (async runtime)
+- axum 0.7 (web framework)
+- criterion 0.5 (benchmarking)
+- tracing 0.1 (logging)
+
+**Build Optimization:**
+```toml
+[profile.release]
+opt-level = 3          # Maximum optimization
+lto = true             # Link-time optimization
+codegen-units = 1      # Better optimization
+```
+
+### Performance Characteristics
+
+**Processing Latency:**
+- Small trajectory (10 states): < 1 ms
+- Medium trajectory (100 states): < 5 ms
+- Large trajectory (1000 states): < 50 ms
+
+**Batch Throughput:**
+- > 100 inputs/second (medium trajectories)
+- < 10 ms average latency per input
+
+**Memory Usage:**
+- Per State5D: 40 bytes (5 × f64)
+- Typical trajectory (100 states): ~4 KB
+- Baseline engine: < 1 MB
+
+### Repository Structure
+
+```
+dioniceOS/
+├── 4D_Trichter.pdf              # Delta-Blueprint specification
+├── 5D_Cube.pdf                  # 5D Cube system specification
+├── README.md                    # This file
+├── Cargo.toml                   # Root workspace
+│
+├── apollyon_5d/                 # APOLLYON-5D (3 crates)
+│   ├── core/                    # 5D dynamical systems
+│   ├── metatron/                # Geometric cognition
+│   └── bridge/                  # Integration layer
+│
+├── infinity-ledger/             # MEF-Core (21 modules)
+│   ├── mef-core/
+│   ├── mef-spiral/
+│   ├── mef-ledger/
+│   ├── mef-knowledge/
+│   ├── mef-memory/
+│   ├── mef-router/
+│   └── [15 additional modules]
+│
+├── apollyon-mef-bridge/         # Integration + 4D-Trichter
+│   ├── src/adapters/            # Type converters
+│   ├── src/trichter/            # 4D-Trichter (1,606 lines)
+│   ├── src/pipeline/            # Processing pipelines
+│   ├── src/storage/             # Storage backends
+│   └── src/unified/             # Cognitive engine
+│
+└── overlay/                     # Non-invasive overlay
+    └── unified_5d_cube/         # Public API integration
+```
+
+---
+
+## Building and Testing
 
 ### Prerequisites
 
 ```bash
-# Install Rust (1.70+)
+# Install Rust 1.70 or later
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-### Build All Systems
+### Build Instructions
 
 ```bash
 # Build APOLLYON-5D
@@ -179,19 +332,20 @@ cargo build --release
 cargo test --release
 # Expected: 109/109 tests passing
 
-# Build Infinity-Ledger  
+# Build Infinity-Ledger
 cd ../infinity-ledger
 cargo build --release --workspace
 cargo test --workspace
+# Expected: All MEF tests passing
 
-# Build Integration Bridge (with 4D-Trichter)
+# Build Integration Bridge
 cd ../apollyon-mef-bridge
 cargo build --release
 cargo test --lib
 # Expected: 84/84 tests passing
 ```
 
-### Test 4D-Trichter Specifically
+### Test 4D-Trichter
 
 ```bash
 cd apollyon-mef-bridge
@@ -199,154 +353,50 @@ cargo test --lib trichter
 # Expected: 41/41 tests passing
 ```
 
----
-
-## 📊 Test Coverage
-
 ### Complete Test Suite
 
 ```
-apollyon_5d:           109 tests ✅
-infinity-ledger:       All MEF tests ✅  
-apollyon-mef-bridge:   84 tests ✅
-├── State Adapter:     9 tests ✅
-├── Spectral Adapter:  12 tests ✅
-├── Metatron Bridge:   6 tests ✅
-├── Resonance Bridge:  7 tests ✅
-├── Unified Engine:    9 tests ✅
-└── 4D-Trichter:       41 tests ✅
-    ├── Types:         3 tests ✅
-    ├── Lift/Proj:     5 tests ✅
-    ├── Hyperbion:     6 tests ✅
-    ├── HDAG:          8 tests ✅
-    ├── Funnel:        5 tests ✅
-    ├── Policies:      8 tests ✅
-    └── Tick:          6 tests ✅
+Component                  Tests    Status
+─────────────────────────────────────────
+apollyon_5d                 109      ✓
+infinity-ledger             All      ✓
+apollyon-mef-bridge          84      ✓
+├── State Adapter             9      ✓
+├── Spectral Adapter         12      ✓
+├── Metatron Bridge           6      ✓
+├── Resonance Bridge          7      ✓
+├── Unified Engine            9      ✓
+└── 4D-Trichter              41      ✓
+    ├── Types                 3      ✓
+    ├── Lift/Projection       5      ✓
+    ├── Hyperbion             6      ✓
+    ├── HDAG                  8      ✓
+    ├── Funnel                5      ✓
+    ├── Policies              8      ✓
+    └── Coupling Tick         6      ✓
+─────────────────────────────────────────
+Total                      200+      ✓
 ```
 
 ---
 
-## 🎯 Use Cases
+## Code Examples
 
-### 1. Verifiable AI Reasoning
-- Encode queries in 5D space
-- Integrate through 4D-Trichter dynamics
-- Generate cryptographic proofs
-- Store verified transitions in MEF ledger
-
-### 2. Geometric Knowledge Graphs
-- Concepts as 5D nodes
-- Relationships as Funnel edges with Hebbian learning
-- Vector search in 8D space (5D state + 3D spectral)
-- Temporal evolution tracking
-
-### 3. Morphodynamic Pattern Recognition
-- Input patterns flow through 4D Funnel
-- Hyperbion layer extracts resonance features
-- HDAG field guides clustering
-- Policies control exploration vs. exploitation
-
-### 4. Self-Optimizing Systems
-- System monitors performance metrics
-- Homeostasis policy maintains optimal density
-- Proven state transitions enable rollback
-- Cryptographic audit trail
-
----
-
-## 📁 Repository Structure
-
-```
-dioniceOS/
-├── 4D_Trichter.pdf                # Delta-Blueprint specification
-├── README.md                      # This file (English)
-├── README_DE.md                   # German version
-├── Cargo.toml                     # Root workspace
-│
-├── apollyon_5d/                   # APOLLYON-5D System
-│   ├── core/                      # 5D dynamical systems framework
-│   ├── metatron/                  # Geometric cognition engine
-│   └── bridge/                    # Adaptive integration layer
-│
-├── infinity-ledger/               # Infinity-Ledger System (MEF-Core)
-│   ├── mef-core/                  # Core MEF pipeline
-│   ├── mef-spiral/                # Spiral snapshot system
-│   ├── mef-ledger/                # Hash-chained ledger
-│   ├── mef-knowledge/             # Knowledge derivation
-│   ├── mef-memory/                # Vector memory
-│   ├── mef-router/                # Metatron S7 routing
-│   └── [other MEF modules]/
-│
-└── apollyon-mef-bridge/           # Integration Bridge + 4D-Trichter
-    ├── src/
-    │   ├── adapters/              # Bidirectional type converters
-    │   │   ├── state_adapter.rs   # 5D ⟷ Spiral
-    │   │   ├── spectral_adapter.rs # Features ⟷ Signature
-    │   │   ├── metatron_adapter.rs # Cube-13 ⟷ S7
-    │   │   └── resonance_adapter.rs # Field ⟷ PoR
-    │   ├── trichter/              # 4D-Trichter Implementation ⭐
-    │   │   ├── types.rs           # Core types (State4D, State5D)
-    │   │   ├── lift.rs            # Lift/Projection operations
-    │   │   ├── hyperbion.rs       # Morphodynamic coupling
-    │   │   ├── hdag.rs            # 5D resonance grid
-    │   │   ├── funnel.rs          # Graph with Hebbian learning
-    │   │   ├── policies.rs        # Explore/Exploit/Homeostasis
-    │   │   └── tick.rs            # Main coupling algorithm
-    │   ├── pipeline/              # Processing pipelines
-    │   └── unified/               # Unified cognitive engine
-    └── tests/
-```
-
----
-
-## 🔑 Key Insights
-
-### Perfect Mathematical Alignment
-
-The entire system operates in a **consistent 5D space** with exact mappings:
-
-| Dimension | APOLLYON-5D | MEF-Core | 4D-Trichter | Meaning |
-|-----------|-------------|----------|-------------|---------|
-| D1 | x | coords[0] | x | Spatial X |
-| D2 | y | coords[1] | y | Spatial Y |
-| D3 | z | coords[2] | z | Spatial Z |
-| D4 | ψ | coords[3] | ψ | Semantic weight |
-| D5 | ω | coords[4] | ω | Temporal phase |
-
-This enables:
-- ✅ Lossless bidirectional conversion (error < 1e-10)
-- ✅ Unified state representation
-- ✅ Seamless system integration
-
-### Complementary Capabilities
-
-```
-4D-Trichter:    Morphodynamic pattern compression
-     ↓
-APOLLYON-5D:    Dynamic computation + spectral analysis
-     ↓
-MEF-Core:       Persistent storage + cryptographic proofs
-```
-
----
-
-## 🧪 Example Usage
-
-### Basic 4D-Trichter Workflow
+### Basic 4D-Trichter Usage
 
 ```rust
 use apollyon_mef_bridge::{
-    State4D, PolicyParams, Policy, Hyperbion, 
+    State4D, PolicyParams, Policy, Hyperbion,
     HDAGField, FunnelGraph, coupling_tick
 };
 
-// Initialize system
+// Initialize system components
 let policy = Policy::Explore.params();
 let hyperbion = Hyperbion::new();
 let mut hdag = HDAGField::new();
 let mut funnel = FunnelGraph::new();
 
-// Input states
+// Define input states
 let states = vec![
     State4D::new(1.0, 0.0, 0.0, 0.5),
     State4D::new(0.0, 1.0, 0.0, 0.5),
@@ -384,7 +434,7 @@ for t in 0..100 {
         &mut funnel,
         false,
     );
-    
+
     states = result.states_4d_next;
 }
 
@@ -394,108 +444,71 @@ println!("Total nodes: {}", funnel.node_count());
 
 ---
 
-## 🔐 Security & Guarantees
+## Documentation
 
-### Determinism
-✅ Same inputs + same policy → identical outputs  
-✅ Reproducible across systems and time  
-✅ No hidden state or randomness
+**Specifications:**
+- 4D_Trichter.pdf - Delta-Blueprint specification (341 KB)
+- 5D_Cube.pdf - 5D Cube system specification (188 KB)
 
-### Bündigkeit (Flush Coherence 4D ↔ 5D)
-✅ Curvature/misalignment decreases under stable coherence  
-✅ State transitions preserve mathematical structure  
-✅ Lift/projection roundtrip error < 1e-10
+**Component Documentation:**
+- apollyon_5d/README.md - APOLLYON-5D detailed documentation
+- infinity-ledger/README.md - MEF-Core architecture and API
+- apollyon-mef-bridge/ARCHITECTURE.md - Integration bridge design
+- apollyon-mef-bridge/PERFORMANCE.md - Performance tuning guide
+- overlay/unified_5d_cube/README.md - Overlay system documentation
 
-### Homeostasis
-✅ Density ρ remains in band [ρ_min, ρ_max]  
-✅ Adaptive parameters prevent runaway growth  
-✅ Hysteresis ensures stability
-
-### Acyclicity Through Phase
-✅ Cycles collapse in non-coherent subspaces  
-✅ Phase mismatch → weight decay  
-✅ Natural DAG emergence without explicit enforcement
-
-### Proof Artifacts
-✅ Local cryptographic hashing (SHA-256)  
-✅ Deterministic replay capability  
-✅ Audit trail without network dependencies
+**Development:**
+- CHANGELOG.md - Version history and release notes
+- docs/ARCHITECTURE.md - System architecture overview
+- docs/GETTING_STARTED.md - Quick start guide
 
 ---
 
-## 📚 Documentation
+## Contributing
 
-- **[4D_Trichter.pdf](./4D_Trichter.pdf)** - Delta-Blueprint specification
-- **[5D_Cube.pdf](./5D_Cube.pdf)** - 5D Cube system specification
-- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and release notes
-- **[apollyon_5d/README.md](./apollyon_5d/README.md)** - APOLLYON-5D documentation
-- **[infinity-ledger/README.md](./infinity-ledger/README.md)** - MEF-Core documentation
-- **[apollyon-mef-bridge/](./apollyon-mef-bridge/)** - Integration bridge documentation
+Contributions are welcome in the following areas:
 
----
+**Performance Optimization:**
+- Benchmark analysis with Criterion
+- Memory profiling and optimization
+- Hot path identification and optimization
 
-## 🤝 Contributing
+**Feature Development:**
+- Configurable gate thresholds
+- Custom resonance field implementations
+- Batch processing API extensions
+- Async processing enhancements
 
-This is a research integration project combining three complex mathematical systems. Contributions welcome in:
+**Integration:**
+- Production ledger connections
+- Additional storage backends
+- Monitoring and observability
 
-1. **Performance Optimization**
-   - Benchmark with Criterion
-   - Profile memory usage
-   - Optimize hot paths
-
-2. **Feature Extensions**
-   - Configurable gate thresholds
-   - Custom resonance fields
-   - Batch processing API
-   - Async processing support
-
-3. **Integration**
-   - Connect to actual MEF ledger
-   - Add persistence layer
-   - Implement storage backend
-
-4. **Documentation**
-   - Architecture diagrams
-   - Tutorial guides
-   - Usage examples
+**Documentation:**
+- Architecture diagrams
+- Tutorial content
+- Usage examples
+- API documentation
 
 ---
 
-## 📄 License
+## License
 
-- **4D-Trichter Implementation**: MIT License
-- **APOLLYON-5D**: See `apollyon_5d/` for license
-- **Infinity-Ledger**: MIT License (see `infinity-ledger/LICENSE`)
-- **Integration Bridge**: MIT License
-
----
-
-## 🌌 Project Vision
-
-**"Creating the world's first deterministic, cybernetically-coherent geometric-cognitive computing platform with cryptographic proof-carrying capabilities."**
-
-This integration represents a new paradigm in computing:
-- ✅ Deterministic 4D-5D morphodynamics
-- ✅ Geometric cognition with spectral analysis
-- ✅ Cryptographic proof-carrying storage
-- ✅ Vector intelligence in 8D space
-- ✅ Temporal provenance and audit trails
-- ✅ Offline-reconstructible execution
+- 4D-Trichter Implementation: MIT License
+- APOLLYON-5D: See apollyon_5d/ for license details
+- Infinity-Ledger: MIT License (see infinity-ledger/LICENSE)
+- Integration Bridge: MIT License
 
 ---
 
-**Last Updated**: November 2025
-**Version**: 1.0.0
-**Status**: Production Ready
+## Academic Foundation
+
+This work implements the Delta-Blueprint "Gabriel" 4D-Trichter specification (Sebastian Klemm, October 2025) integrated with APOLLYON-5D geometric-cognitive mathematics and the Infinity-Ledger proof-carrying vector architecture. The system incorporates Metatron cube geometry and QLogic spectral analysis methodologies.
+
+For detailed mathematical formulation, refer to 4D_Trichter.pdf in the repository root.
 
 ---
 
-## 🎓 Academic Foundation
-
-This work is based on:
-- Delta-Blueprint: "Gabriel" - 4D-Trichter specification (Sebastian Klemm, October 2025)
-- APOLLYON-5D geometric-cognitive mathematics
-- Infinity-Ledger proof-carrying vector architecture
-- Metatron cube geometry and QLogic spectral analysis
-
-**For detailed mathematical formulation, see [4D_Trichter.pdf](./4D_Trichter.pdf)**
+**Status:** Production Ready
+**Version:** 1.0.0
+**Last Updated:** November 2025
