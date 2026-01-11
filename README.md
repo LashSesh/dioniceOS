@@ -16,13 +16,13 @@ DioniceOS is a geometric-cognitive computing platform that unifies three mathema
 
 DioniceOS integrates three complementary mathematical frameworks:
 
-**4D-Trichter (Gabriel)**
+**4D-Funnel Cognition (Gabriel)**
 A morphodynamic pattern compression system combining a kinetic funnel compressor, morphodynamic coupling layer (Hyperbion), and 5-dimensional resonance grid (HDAG Field). Implements deterministic state evolution with cryptographic proof generation.
 
 **APOLLYON-5D**
 A 5-dimensional geometric-cognitive mathematics engine featuring dynamical systems integration, Metatron cube geometry, spectral analysis (QLogic), and adaptive coupling mechanisms with symmetry preservation.
 
-**Infinity-Ledger (MEF-Core)**
+**Infinity-Ledger (Mandorla Eigenstate Fractals)**
 A proof-carrying vector ledger providing immutable hash-chained storage, vector search capabilities (HNSW, IVF-PQ), deterministic S7 routing (Metatron), and content-addressed knowledge objects with cryptographic verification.
 
 ### Mathematical Foundation
